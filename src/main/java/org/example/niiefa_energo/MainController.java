@@ -1,13 +1,35 @@
 package org.example.niiefa_energo;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
-import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.text.Text;
 
 public class MainController {
+
+    @FXML
+    private TextField alphaFilterField;
+
+    @FXML
+    private ComboBox<?> comPortChoice;
+
+    @FXML
+    private Text connectionStatus;
+
+    @FXML
+    private TextField currentSetField;
+
+    @FXML
+    private TextField duration;
+
+    @FXML
+    private TextField frequencyField;
+
+    @FXML
+    private TextField frequencySetField;
 
     @FXML
     private LineChart<?, ?> lineChartArea;
@@ -22,33 +44,12 @@ public class MainController {
     private CheckBox plot3checkBox;
 
     @FXML
-    private Button resetMinMaxValues;
-
-    @FXML
-    private TextField xMaxValueField;
-
-    @FXML
-    private TextField xMinValueField;
+    private ToggleButton startButton;
 
     @FXML
     private TextField yMaxValueField;
 
     @FXML
     private TextField yMinValueField;
-
-    @FXML
-    void checkBoxEvent(ActionEvent event) {
-
-    }
-
-    @FXML
-    void onChangeRange(ActionEvent event) {
-
-    }
-
-    @FXML
-    void onResetRange(ActionEvent event) {
-
-    }
 
 }
