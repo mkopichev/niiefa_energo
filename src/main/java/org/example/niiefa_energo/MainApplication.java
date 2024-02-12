@@ -15,11 +15,11 @@ public class MainApplication extends Application {
 
         FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("sceneMain.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1366, 768);
-        stage.setMaximized(false);
-        stage.setResizable(false);
         stage.setMinHeight(768);
         stage.setMinWidth(1366);
-        stage.setTitle("НИИЭФА-ЭНЕРГО СПбГЭТУ \"ЛЭТИ\"");
+        stage.setMaximized(false);
+        stage.setResizable(false);
+        stage.setTitle("Программа для исследования токовых зависимостей");
         stage.getIcons().add(new Image(Objects.requireNonNull(MainApplication.class.getResourceAsStream("appIcon.png"))));
         stage.setScene(scene);
         stage.show();

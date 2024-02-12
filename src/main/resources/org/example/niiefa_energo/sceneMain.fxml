@@ -4,9 +4,9 @@
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -17,6 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <Pane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
    <children>
@@ -84,7 +85,7 @@
                                           <Insets right="20.0" />
                                        </HBox.margin>
                                     </Rectangle>
-                                    <CheckBox fx:id="plot1checkBox" mnemonicParsing="false" selected="true" text="График 1">
+                                    <CheckBox fx:id="plot1checkBox" mnemonicParsing="false" selected="true" text="Задание">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -101,7 +102,7 @@
                                           <Insets right="20.0" />
                                        </HBox.margin>
                                     </Rectangle>
-                                    <CheckBox fx:id="plot2checkBox" mnemonicParsing="false" selected="true" text="График 2">
+                                    <CheckBox fx:id="plot2checkBox" mnemonicParsing="false" selected="true" text="Без α-фильтра">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -115,7 +116,7 @@
                                           <Insets right="20.0" />
                                        </HBox.margin>
                                     </Rectangle>
-                                    <CheckBox fx:id="plot3checkBox" mnemonicParsing="false" selected="true" text="График 3">
+                                    <CheckBox fx:id="plot3checkBox" mnemonicParsing="false" selected="true" text="С α-фильтром">
                                        <font>
                                           <Font size="18.0" />
                                        </font>
@@ -152,52 +153,65 @@
                                     <Font size="18.0" />
                                  </font>
                               </TextField>
-                              <TextField alignment="CENTER" maxWidth="100.0" promptText="X мин." styleClass="default" stylesheets="@MyTextFieldStyle.css" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="1" GridPane.valignment="CENTER" fx:id="xMinValueField">
+                              <TextField fx:id="duration" alignment="CENTER" maxWidth="100.0" promptText="Время, с" styleClass="default" stylesheets="@MyTextFieldStyle.css" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </TextField>
-                              <TextField alignment="CENTER" maxWidth="100.0" promptText="X макс." styleClass="default" stylesheets="@MyTextFieldStyle.css" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER" fx:id="xMaxValueField">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                              </TextField>
-                              <Button fx:id="resetMinMaxValues" mnemonicParsing="false" styleClass="default" stylesheets="@MyButtonStyle.css" text="Сбросить" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                              </Button>
                            </children>
                         </GridPane>
                      </children>
                   </GridPane>
                   <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="1">
                      <children>
-                        <Button mnemonicParsing="false" styleClass="default" stylesheets="@MyButtonStyle.css" text="Button">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="α-фильтр">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Text>
+                        <TextField fx:id="alphaFilterField" promptText="А" styleClass="default" stylesheets="@MyTextFieldStyle.css">
                            <VBox.margin>
-                              <Insets bottom="20.0" top="20.0" />
-                           </VBox.margin>
-                        </Button>
-                        <Button mnemonicParsing="false" styleClass="default" stylesheets="@MyButtonStyle.css" text="Button">
-                           <VBox.margin>
-                              <Insets bottom="20.0" top="20.0" />
-                           </VBox.margin>
-                        </Button>
-                        <Button mnemonicParsing="false" styleClass="default" stylesheets="@MyButtonStyle.css" text="Button">
-                           <VBox.margin>
-                              <Insets bottom="20.0" top="20.0" />
-                           </VBox.margin>
-                        </Button>
-                        <TextField styleClass="default" stylesheets="@MyTextFieldStyle.css">
-                           <VBox.margin>
-                              <Insets bottom="20.0" top="20.0" />
+                              <Insets bottom="20.0" />
                            </VBox.margin>
                         </TextField>
-                        <TextField styleClass="default" stylesheets="@MyTextFieldStyle.css">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Задание частоты">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Text>
+                        <TextField fx:id="frequencySetField" promptText="Гц" styleClass="default" stylesheets="@MyTextFieldStyle.css">
                            <VBox.margin>
-                              <Insets bottom="20.0" top="20.0" />
+                              <Insets bottom="20.0" />
                            </VBox.margin>
                         </TextField>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ток задания">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Text>
+                        <TextField fx:id="currentSetField" promptText="А" styleClass="default" stylesheets="@MyTextFieldStyle.css">
+                           <VBox.margin>
+                              <Insets bottom="20.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Текущая частота">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Text>
+                        <TextField fx:id="frequencyField" promptText="Гц" styleClass="default" stylesheets="@MyTextFieldStyle.css">
+                           <VBox.margin>
+                              <Insets bottom="20.0" />
+                           </VBox.margin>
+                        </TextField>
+                        <ToggleButton fx:id="startButton" contentDisplay="CENTER" mnemonicParsing="false" styleClass="start" stylesheets="@MyButtonStyle.css" text="Старт">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                        </ToggleButton>
                      </children>
                   </VBox>
                </children>
