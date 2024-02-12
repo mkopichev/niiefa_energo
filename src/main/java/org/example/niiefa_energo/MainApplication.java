@@ -17,9 +17,9 @@ public class MainApplication extends Application {
         Scene scene = new Scene(fxmlLoader.load(), 1366, 768);
         stage.setMinHeight(768);
         stage.setMinWidth(1366);
-        stage.setMaximized(false);
-        stage.setResizable(false);
-        stage.setTitle("Программа для исследования токовых зависимостей");
+        stage.setMaximized(true);
+        stage.setResizable(true);
+        stage.setTitle("ЧМИ ИТ 300-15");
         stage.getIcons().add(new Image(Objects.requireNonNull(MainApplication.class.getResourceAsStream("appIcon.png"))));
         stage.setScene(scene);
         stage.show();

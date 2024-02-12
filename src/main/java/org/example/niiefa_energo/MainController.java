@@ -1,14 +1,15 @@
 package org.example.niiefa_energo;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleButton;
+import javafx.scene.control.*;
 import javafx.scene.text.Text;
 
 public class MainController {
+
+    @FXML
+    private ToggleButton acsEnableButton;
 
     @FXML
     private TextField alphaFilterField;
@@ -47,9 +48,34 @@ public class MainController {
     private ToggleButton startButton;
 
     @FXML
+    private ToggleButton startButton11;
+
+    @FXML
     private TextField yMaxValueField;
 
     @FXML
     private TextField yMinValueField;
+
+    @FXML
+    void onAcsEnableButtonPress(ActionEvent event) {
+        if (((ToggleButton) event.getSource()).getStyleClass().contains("stop")) {
+            ((ToggleButton) event.getSource()).getStyleClass().remove("stop");
+            ((ToggleButton) event.getSource()).setText("Включить САУ");
+        } else {
+            ((ToggleButton) event.getSource()).getStyleClass().add("stop");
+            ((ToggleButton) event.getSource()).setText("Выключить САУ");
+        }
+    }
+
+    @FXML
+    void onStartButtonPress(ActionEvent event) {
+        if (((ToggleButton) event.getSource()).getStyleClass().contains("stop")) {
+            ((ToggleButton) event.getSource()).getStyleClass().remove("stop");
+            ((ToggleButton) event.getSource()).setText("Старт");
+        } else {
+            ((ToggleButton) event.getSource()).getStyleClass().add("stop");
+            ((ToggleButton) event.getSource()).setText("Стоп");
+        }
+    }
 
 }
