@@ -66,7 +66,7 @@ public class MainController implements Initializable {
 
         comPortChoice.showingProperty().addListener((observable, wasShowing, isShowing) ->
         {
-            if(isShowing) {
+            if (isShowing) {
                 comPortChoice.getItems().clear();
                 SerialPort[] ports = SerialPort.getCommPorts();
                 for (SerialPort port : ports
@@ -76,8 +76,6 @@ public class MainController implements Initializable {
             }
         });
     }
-}
-
 
     @FXML
     void onAcsEnableButtonPress(ActionEvent event) {
@@ -100,5 +98,4 @@ public class MainController implements Initializable {
             ((ToggleButton) event.getSource()).setText("Стоп");
         }
     }
-
 }
