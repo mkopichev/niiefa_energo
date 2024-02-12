@@ -1,6 +1,8 @@
 package org.example.niiefa_energo;
 
+import com.fazecast.jSerialComm.SerialPort;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -8,13 +10,16 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.text.Text;
 
-public class MainController {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class MainController implements Initializable {
 
     @FXML
     private TextField alphaFilterField;
 
     @FXML
-    private ComboBox<?> comPortChoice;
+    private ComboBox<String> comPortChoice;
 
     @FXML
     private Text connectionStatus;
@@ -52,4 +57,22 @@ public class MainController {
     @FXML
     private TextField yMinValueField;
 
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+
+        comPortChoice.showingProperty().addListener((observable, wasShowing, isShowing) ->
+        {
+            if(isShowing) {
+                comPortChoice.getItems().clear();
+                SerialPort[] ports = SerialPort.getCommPorts();
+                for (SerialPort port : ports
+                ) {
+                    comPortChoice.getItems().add(port.getDescriptivePortName());
+                }
+            }
+        });
+    }
 }
+
+
