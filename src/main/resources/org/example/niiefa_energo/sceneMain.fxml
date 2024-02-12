@@ -5,6 +5,7 @@
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.image.Image?>
@@ -204,6 +205,19 @@
                               <Insets bottom="20.0" />
                            </VBox.margin>
                         </TextField>
+                        <Text fx:id="connectionStatus" strokeType="OUTSIDE" strokeWidth="0.0" text="Статус">
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Text>
+                        <ComboBox fx:id="comPortChoice" prefWidth="150.0" promptText="COM-порт" styleClass="default" stylesheets="@MyButtonStyle.css">
+                           <VBox.margin>
+                              <Insets bottom="20.0" />
+                           </VBox.margin>
+                        </ComboBox>
                         <ToggleButton fx:id="startButton" contentDisplay="CENTER" mnemonicParsing="false" styleClass="start" stylesheets="@MyButtonStyle.css" text="Старт">
                            <font>
                               <Font size="18.0" />
