@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
 import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
@@ -16,9 +17,13 @@ import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ResourceBundle;
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class MainController implements Initializable, Notification {
+
+    @FXML
+    private GridPane background;
 
     @FXML
     private ToggleButton acsEnableButton;
@@ -58,9 +63,6 @@ public class MainController implements Initializable, Notification {
 
     @FXML
     private ToggleButton startButton;
-
-    @FXML
-    private ToggleButton startButton11;
 
     @FXML
     private TextField yMaxValueField;
@@ -161,11 +163,15 @@ public class MainController implements Initializable, Notification {
                 connectionStatus.setText("Подключено");
             }
         });
+        background.setOnMousePressed(event -> {
+            if (!alphaFilterField.equals(event.getSource()))
+                alphaFilterField.getParent().requestFocus();
+        });
         alphaFilterField.focusedProperty().addListener((observable, outOfFocus, inFocus) -> {
             alphaFilterField.getStyleClass().removeAll("invalid");
             if (outOfFocus) {
                 try {
-                    alpha = Float.parseFloat(alphaFilterField.getText().strip().replaceAll(",","."));
+                    alpha = Float.parseFloat(alphaFilterField.getText().strip().replaceAll(",", "."));
                 } catch (NumberFormatException e) {
                     alphaFilterField.getStyleClass().add("invalid");
                 }
@@ -175,7 +181,7 @@ public class MainController implements Initializable, Notification {
             frequencySetField.getStyleClass().removeAll("invalid");
             if (outOfFocus) {
                 try {
-                    freq = Float.parseFloat(frequencySetField.getText().strip().replaceAll(",","."));
+                    freq = Float.parseFloat(frequencySetField.getText().strip().replaceAll(",", "."));
                 } catch (NumberFormatException e) {
                     frequencySetField.getStyleClass().add("invalid");
                 }
@@ -185,12 +191,23 @@ public class MainController implements Initializable, Notification {
             currentSetField.getStyleClass().removeAll("invalid");
             if (outOfFocus) {
                 try {
-                    current = Float.parseFloat(currentSetField.getText().strip().replaceAll(",","."));
+                    current = Float.parseFloat(currentSetField.getText().strip().replaceAll(",", "."));
                 } catch (NumberFormatException e) {
                     currentSetField.getStyleClass().add("invalid");
                 }
             }
         });
+    }
+
+    @FXML
+    void onPauseButtonPress(ActionEvent event) {
+        if (((ToggleButton) event.getSource()).getStyleClass().contains("stop")) {
+            ((ToggleButton) event.getSource()).getStyleClass().remove("stop");
+            ((ToggleButton) event.getSource()).setText("Пауза");
+        } else {
+            ((ToggleButton) event.getSource()).getStyleClass().add("stop");
+            ((ToggleButton) event.getSource()).setText("Запуск");
+        }
     }
 
     @FXML

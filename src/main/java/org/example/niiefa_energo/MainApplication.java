@@ -1,8 +1,12 @@
 package org.example.niiefa_energo;
 
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.Event;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
@@ -28,7 +32,6 @@ public class MainApplication extends Application {
         stage.getIcons().add(new Image(Objects.requireNonNull(MainApplication.class.getResourceAsStream("appIcon.png"))));
         stage.setScene(scene);
         stage.show();
-
     }
 
     public static void main(String[] args) {
