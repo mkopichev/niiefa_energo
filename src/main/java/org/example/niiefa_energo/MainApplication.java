@@ -12,12 +12,14 @@ import java.util.Objects;
 
 public class MainApplication extends Application {
 
+    Notification mainController;
+
     @Override
     public void start(Stage stage) throws IOException {
 
         FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("sceneMain.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1366, 768);
-        fxmlLoader.getController();
+        mainController = fxmlLoader.getController();
         stage.setMinHeight(768);
         stage.setMinWidth(1366);
         stage.setMaximized(true);
@@ -33,4 +35,9 @@ public class MainApplication extends Application {
         launch();
     }
 
+    @Override
+    public void stop() throws Exception {
+        mainController.closeApp();
+        super.stop();
+    }
 }
