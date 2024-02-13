@@ -14,8 +14,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URL;
 import java.nio.ByteBuffer;
-import java.util.Collection;
-import java.util.List;
+import java.nio.ByteOrder;
 import java.util.ResourceBundle;
 import java.util.concurrent.*;
 
@@ -80,23 +79,29 @@ public class MainController implements Initializable, Notification {
 
     private OutputStream outputStream;
 
-    private Thread serialThread;
+    private Thread serialThreadOutput;
+
+    float alpha = 0.0f;
+    float freq = 0.0f;
+    float current = 0.0f;
 
     ExecutorService es = Executors.newSingleThreadExecutor();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        serialThread = new Thread(new Runnable() {
+        serialThreadOutput = new Thread(new Runnable() {
             @Override
             public void run() {
                 while (true) {
                     try {
                         if (outputStream != null) {
-                            ByteBuffer buf = ByteBuffer.allocate(2 + 4 + 4 + 4 + 1).put((byte) 'a').put((byte) 'f').putFloat((float) 2.5).putFloat((float) 3.5).putFloat((float) 3.5).put((byte) 1);
+                            // 2 start bytes, alpha_filter_float, frequency_float, current_float, mode_byte
+                            ByteBuffer buf = ByteBuffer.allocate(2 + 4 + 4 + 4 + 1);
+                            buf.order(ByteOrder.LITTLE_ENDIAN);
+                            buf.put((byte) 'a').put((byte) 'f').putFloat(alpha).putFloat(freq).putFloat(current).put((byte) 1);
                             outputStream.write(buf.array());
                         }
-                        System.out.println("Running");
                     } catch (SerialPortTimeoutException e) {
                         e.printStackTrace();
                     }
@@ -108,13 +113,12 @@ public class MainController implements Initializable, Notification {
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         serialPort.closePort();
-                        System.out.println("Stopped");
                         return;
                     }
                 }
             }
         });
-        serialThread.start();
+        serialThreadOutput.start();
 
         comPortChoice.showingProperty().addListener((observable, wasShowing, isShowing) ->
         {
@@ -150,11 +154,40 @@ public class MainController implements Initializable, Notification {
                 if (serialPort != null)
                     serialPort.closePort();
                 serialPort = SerialPort.getCommPort(serialPortName);
+                serialPort.setComPortParameters(115200, 8, 1, SerialPort.NO_PARITY);
                 serialPort.openPort();
                 serialPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 0, 0);
                 inputStream = serialPort.getInputStream();
                 outputStream = serialPort.getOutputStream();
                 connectionStatus.setText("Подключено");
+            }
+        });
+
+        frequencySetField.focusedProperty().addListener((observable, outOfFocus, inFocus) -> {
+            if(outOfFocus) {
+                try {
+                    freq = Float.parseFloat(frequencySetField.getText());
+                } catch (NumberFormatException e) {
+                    //TODO: Set red area for incorrect input
+                }
+            }
+        });
+        currentSetField.focusedProperty().addListener((observable, outOfFocus, inFocus) -> {
+            if(outOfFocus) {
+                try {
+                    current = Float.parseFloat(currentSetField.getText());
+                } catch (NumberFormatException e) {
+                    //TODO: Set red area for incorrect input
+                }
+            }
+        });
+        alphaFilterField.focusedProperty().addListener((observable, outOfFocus, inFocus) -> {
+            if(outOfFocus) {
+                try {
+                    alpha = Float.parseFloat(alphaFilterField.getText());
+                } catch (NumberFormatException e) {
+                    //TODO: Set red area for incorrect input
+                }
             }
         });
     }
@@ -183,6 +216,6 @@ public class MainController implements Initializable, Notification {
 
     @Override
     public void closeApp() {
-        serialThread.interrupt();
+        serialThreadOutput.interrupt();
     }
 }
