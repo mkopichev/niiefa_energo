@@ -18,10 +18,8 @@ public class MainApplication extends Application {
     public void start(Stage stage) throws IOException {
 
         FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("sceneMain.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 1366, 768);
+        Scene scene = new Scene(fxmlLoader.load());
         mainController = fxmlLoader.getController();
-        stage.setMinHeight(768);
-        stage.setMinWidth(1366);
         stage.setMaximized(true);
         stage.setResizable(true);
         stage.setTitle("ЧМИ ИТ 300-15");

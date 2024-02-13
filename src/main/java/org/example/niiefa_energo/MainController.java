@@ -69,7 +69,7 @@ public class MainController implements Initializable, Notification {
     private TextField yMinValueField;
 
     @FXML
-    private Button  comPortConnectButton;
+    private Button comPortConnectButton;
 
     private String serialPortName;
 
@@ -104,8 +104,7 @@ public class MainController implements Initializable, Notification {
                         }
                     } catch (SerialPortTimeoutException e) {
                         e.printStackTrace();
-                    }
-                    catch (IOException e) {
+                    } catch (IOException e) {
                         connectionStatus.setText("Ошибка COM-порта");
                         e.printStackTrace();
                     }
@@ -136,7 +135,7 @@ public class MainController implements Initializable, Notification {
                 } else {
                     serialPortName = comPortChoice.getValue();
                     if (serialPort != null) {
-                        if(serialPort.isOpen() && !serialPort.getSystemPortName().equals(serialPortName)) {
+                        if (serialPort.isOpen() && !serialPort.getSystemPortName().equals(serialPortName)) {
                             serialPort.closePort();
                             connectionStatus.setText("Не подключено");
                             outputStream = null;
@@ -162,31 +161,33 @@ public class MainController implements Initializable, Notification {
                 connectionStatus.setText("Подключено");
             }
         });
-
+        alphaFilterField.focusedProperty().addListener((observable, outOfFocus, inFocus) -> {
+            alphaFilterField.getStyleClass().removeAll("invalid");
+            if (outOfFocus) {
+                try {
+                    alpha = Float.parseFloat(alphaFilterField.getText());
+                } catch (NumberFormatException e) {
+                    alphaFilterField.getStyleClass().add("invalid");
+                }
+            }
+        });
         frequencySetField.focusedProperty().addListener((observable, outOfFocus, inFocus) -> {
-            if(outOfFocus) {
+            frequencySetField.getStyleClass().removeAll("invalid");
+            if (outOfFocus) {
                 try {
                     freq = Float.parseFloat(frequencySetField.getText());
                 } catch (NumberFormatException e) {
-                    //TODO: Set red area for incorrect input
+                    frequencySetField.getStyleClass().add("invalid");
                 }
             }
         });
         currentSetField.focusedProperty().addListener((observable, outOfFocus, inFocus) -> {
-            if(outOfFocus) {
+            currentSetField.getStyleClass().removeAll("invalid");
+            if (outOfFocus) {
                 try {
                     current = Float.parseFloat(currentSetField.getText());
                 } catch (NumberFormatException e) {
-                    //TODO: Set red area for incorrect input
-                }
-            }
-        });
-        alphaFilterField.focusedProperty().addListener((observable, outOfFocus, inFocus) -> {
-            if(outOfFocus) {
-                try {
-                    alpha = Float.parseFloat(alphaFilterField.getText());
-                } catch (NumberFormatException e) {
-                    //TODO: Set red area for incorrect input
+                    currentSetField.getStyleClass().add("invalid");
                 }
             }
         });

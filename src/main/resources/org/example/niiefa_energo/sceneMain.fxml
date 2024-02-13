@@ -25,7 +25,7 @@
    <children>
       <GridPane alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="768.0" minWidth="1366.0">
         <columnConstraints>
-          <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" percentWidth="100.0" prefWidth="100.0" />
+          <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" percentWidth="100.0" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" percentHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
@@ -54,8 +54,8 @@
             </HBox>
             <GridPane alignment="CENTER" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
               <columnConstraints>
-                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" percentWidth="85.0" prefWidth="100.0" />
-                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" percentWidth="15.0" prefWidth="100.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" percentWidth="85.0" prefWidth="100.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" percentWidth="15.0" prefWidth="100.0" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" percentHeight="100.0" prefHeight="100.0" valignment="CENTER" vgrow="ALWAYS" />
@@ -176,7 +176,7 @@
                      <children>
                         <Text fx:id="connectionStatus" strokeType="OUTSIDE" strokeWidth="0.0" text="Не подключено">
                            <VBox.margin>
-                              <Insets />
+                              <Insets bottom="10.0" />
                            </VBox.margin>
                            <font>
                               <Font size="18.0" />
@@ -189,60 +189,75 @@
                         </ComboBox>
                         <Button fx:id="comPortConnectButton" alignment="CENTER" focusTraversable="false" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="default" stylesheets="@MyButtonStyle.css" text="Подключиться">
                            <VBox.margin>
-                              <Insets bottom="40.0" />
+                              <Insets bottom="20.0" />
                            </VBox.margin>
                         </Button>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="α-фильтр">
                            <font>
                               <Font size="18.0" />
                            </font>
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
                         </Text>
                         <TextField fx:id="alphaFilterField" promptText="Значение" styleClass="default" stylesheets="@MyTextFieldStyle.css">
                            <VBox.margin>
-                              <Insets bottom="20.0" />
+                              <Insets bottom="10.0" />
                            </VBox.margin>
                         </TextField>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Задание частоты">
                            <font>
                               <Font size="18.0" />
                            </font>
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
                         </Text>
                         <TextField fx:id="frequencySetField" promptText="Гц" styleClass="default" stylesheets="@MyTextFieldStyle.css">
                            <VBox.margin>
-                              <Insets bottom="20.0" />
+                              <Insets bottom="10.0" />
                            </VBox.margin>
                         </TextField>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ток задания">
                            <font>
                               <Font size="18.0" />
                            </font>
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
                         </Text>
                         <TextField fx:id="currentSetField" promptText="А" styleClass="default" stylesheets="@MyTextFieldStyle.css">
                            <VBox.margin>
-                              <Insets bottom="20.0" />
+                              <Insets bottom="10.0" />
                            </VBox.margin>
                         </TextField>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Текущая частота">
                            <font>
                               <Font size="18.0" />
                            </font>
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
                         </Text>
                         <TextField fx:id="frequencyField" promptText="Гц" styleClass="default" stylesheets="@MyTextFieldStyle.css">
                            <VBox.margin>
-                              <Insets bottom="20.0" />
+                              <Insets bottom="10.0" />
                            </VBox.margin>
                         </TextField>
                         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Длительность">
                            <font>
                               <Font size="18.0" />
                            </font>
+                           <VBox.margin>
+                              <Insets bottom="10.0" />
+                           </VBox.margin>
                         </Text>
                         <TextField fx:id="duration" alignment="CENTER" maxWidth="100.0" promptText="с" styleClass="default" stylesheets="@MyTextFieldStyle.css">
                            <font>
                               <Font size="18.0" />
                            </font>
                            <VBox.margin>
-                              <Insets bottom="40.0" />
+                              <Insets bottom="20.0" />
                            </VBox.margin>
                         </TextField>
                         <ToggleButton fx:id="acsEnableButton" contentDisplay="CENTER" focusTraversable="false" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onAcsEnableButtonPress" styleClass="start" stylesheets="@MyButtonStyle.css" text="Включить САУ" textAlignment="CENTER">
