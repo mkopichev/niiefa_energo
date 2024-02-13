@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.text.Text;
 
 import java.net.URL;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
@@ -61,6 +62,8 @@ public class MainController implements Initializable {
     @FXML
     private TextField yMinValueField;
 
+    private SerialPort serialPort;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -75,8 +78,17 @@ public class MainController implements Initializable {
                 }
             }
         });
+        comPortChoice.valueProperty().addListener((observable, oldValue, newValue) -> {
+            if(newValue != null) {
+                if(serialPort != null)
+                    if(serialPort.isOpen())
+                        serialPort.closePort();
+                serialPort = SerialPort.getCommPort(newValue);
+                serialPort.openPort();
+            }
+        });
     }
-}
+
 
 
     @FXML
