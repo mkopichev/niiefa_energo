@@ -165,7 +165,7 @@ public class MainController implements Initializable, Notification {
             alphaFilterField.getStyleClass().removeAll("invalid");
             if (outOfFocus) {
                 try {
-                    alpha = Float.parseFloat(alphaFilterField.getText());
+                    alpha = Float.parseFloat(alphaFilterField.getText().strip().replaceAll(",","."));
                 } catch (NumberFormatException e) {
                     alphaFilterField.getStyleClass().add("invalid");
                 }
@@ -175,7 +175,7 @@ public class MainController implements Initializable, Notification {
             frequencySetField.getStyleClass().removeAll("invalid");
             if (outOfFocus) {
                 try {
-                    freq = Float.parseFloat(frequencySetField.getText());
+                    freq = Float.parseFloat(frequencySetField.getText().strip().replaceAll(",","."));
                 } catch (NumberFormatException e) {
                     frequencySetField.getStyleClass().add("invalid");
                 }
@@ -185,7 +185,7 @@ public class MainController implements Initializable, Notification {
             currentSetField.getStyleClass().removeAll("invalid");
             if (outOfFocus) {
                 try {
-                    current = Float.parseFloat(currentSetField.getText());
+                    current = Float.parseFloat(currentSetField.getText().strip().replaceAll(",","."));
                 } catch (NumberFormatException e) {
                     currentSetField.getStyleClass().add("invalid");
                 }

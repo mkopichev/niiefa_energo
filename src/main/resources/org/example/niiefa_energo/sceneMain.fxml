@@ -14,276 +14,280 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.niiefa_energo.MainController">
+<GridPane alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="768.0" minWidth="1366.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.niiefa_energo.MainController">
+   <columnConstraints>
+      <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" percentWidth="100.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints maxHeight="1.7976931348623157E308" percentHeight="10.0" valignment="CENTER" vgrow="ALWAYS" />
+      <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" percentHeight="90.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
+   </rowConstraints>
    <children>
-      <GridPane alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="768.0" minWidth="1366.0">
-        <columnConstraints>
-          <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" percentWidth="100.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" percentHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
-            <RowConstraints minHeight="10.0" percentHeight="90.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
-        </rowConstraints>
+      <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
          <children>
-            <HBox alignment="CENTER" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+            <ImageView fitHeight="70.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+               <image>
+                  <Image url="@niiefa_logo.png" />
+               </image>
+               <HBox.margin>
+                  <Insets right="25.0" />
+               </HBox.margin>
+            </ImageView>
+            <ImageView fitHeight="70.0" pickOnBounds="true" preserveRatio="true" HBox.hgrow="ALWAYS">
+               <image>
+                  <Image url="@leti_logo.png" />
+               </image>
+               <HBox.margin>
+                  <Insets left="25.0" />
+               </HBox.margin>
+            </ImageView>
+         </children>
+      </HBox>
+      <GridPane alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+         <columnConstraints>
+            <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" percentWidth="85.0" prefWidth="100.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" percentWidth="15.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" percentHeight="100.0" prefHeight="100.0" valignment="CENTER" vgrow="ALWAYS" />
+         </rowConstraints>
+         <children>
+            <GridPane alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+               <columnConstraints>
+                  <ColumnConstraints minWidth="10.0" percentWidth="100.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints minHeight="10.0" percentHeight="90.0" prefHeight="30.0" />
+                  <RowConstraints minHeight="10.0" percentHeight="10.0" prefHeight="30.0" />
+               </rowConstraints>
                <children>
-                  <ImageView fitHeight="70.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@niiefa_logo.png" />
-                     </image>
-                     <HBox.margin>
-                        <Insets right="100.0" />
-                     </HBox.margin>
-                  </ImageView>
-                  <ImageView fitHeight="70.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@leti_logo.png" />
-                     </image>
-                     <HBox.margin>
-                        <Insets left="100.0" />
-                     </HBox.margin>
-                  </ImageView>
-               </children>
-            </HBox>
-            <GridPane alignment="CENTER" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
-              <columnConstraints>
-                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" percentWidth="85.0" prefWidth="100.0" />
-                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" percentWidth="15.0" prefWidth="100.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" percentHeight="100.0" prefHeight="100.0" valignment="CENTER" vgrow="ALWAYS" />
-              </rowConstraints>
-               <children>
-                  <GridPane alignment="CENTER">
-                    <columnConstraints>
-                      <ColumnConstraints minWidth="10.0" percentWidth="100.0" prefWidth="100.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints minHeight="10.0" percentHeight="90.0" prefHeight="30.0" />
-                      <RowConstraints minHeight="10.0" percentHeight="10.0" prefHeight="30.0" />
-                    </rowConstraints>
+                  <GridPane alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                     <columnConstraints>
+                        <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" percentWidth="7.0" prefWidth="30.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
+                        <RowConstraints minHeight="10.0" percentHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
                      <children>
-                        <GridPane alignment="CENTER" GridPane.rowIndex="1">
-                          <columnConstraints>
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="10.0" prefWidth="30.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="30.0" prefWidth="100.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="30.0" prefWidth="100.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="30.0" prefWidth="100.0" />
-                          </columnConstraints>
-                          <rowConstraints>
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="ALWAYS" />
-                          </rowConstraints>
+                        <LineChart fx:id="lineChartArea" GridPane.columnIndex="1">
+                           <xAxis>
+                              <CategoryAxis side="BOTTOM" />
+                           </xAxis>
+                           <yAxis>
+                              <NumberAxis side="LEFT" />
+                           </yAxis>
+                        </LineChart>
+                        <TextField fx:id="yMaxValueField" alignment="CENTER" maxWidth="100.0" promptText="Y макс." styleClass="default" stylesheets="@MyTextFieldStyle.css" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </TextField>
+                        <TextField fx:id="yMinValueField" alignment="CENTER" maxWidth="100.0" promptText="Y мин." styleClass="default" stylesheets="@MyTextFieldStyle.css" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </TextField>
+                        <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <children>
-                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
-                                 <children>
-                                    <CheckBox fx:id="plot1checkBox" mnemonicParsing="false" selected="true" text="Задание">
-                                       <font>
-                                          <Font size="18.0" />
-                                       </font>
-                                       <HBox.margin>
-                                          <Insets />
-                                       </HBox.margin>
-                                    </CheckBox>
-                                    <Rectangle arcHeight="5.0" arcWidth="5.0" fill="RED" height="25.0" stroke="BLACK" strokeType="INSIDE" width="25.0">
-                                       <HBox.margin>
-                                          <Insets left="20.0" />
-                                       </HBox.margin>
-                                    </Rectangle>
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2">
-                                 <children>
-                                    <CheckBox fx:id="plot2checkBox" mnemonicParsing="false" selected="true" text="Без α-фильтра">
-                                       <font>
-                                          <Font size="18.0" />
-                                       </font>
-                                    </CheckBox>
-                                    <Rectangle arcHeight="5.0" arcWidth="5.0" fill="LIME" height="25.0" stroke="BLACK" strokeType="INSIDE" width="25.0">
-                                       <HBox.margin>
-                                          <Insets left="20.0" />
-                                       </HBox.margin>
-                                    </Rectangle>
-                                 </children>
-                              </HBox>
-                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="3">
-                                 <children>
-                                    <CheckBox fx:id="plot3checkBox" mnemonicParsing="false" selected="true" text="С α-фильтром">
-                                       <font>
-                                          <Font size="18.0" />
-                                       </font>
-                                    </CheckBox>
-                                    <Rectangle arcHeight="5.0" arcWidth="5.0" fill="BLUE" height="25.0" stroke="BLACK" strokeType="INSIDE" width="25.0">
-                                       <HBox.margin>
-                                          <Insets left="20.0" />
-                                       </HBox.margin>
-                                    </Rectangle>
-                                 </children>
-                              </HBox>
-                           </children>
-                        </GridPane>
-                        <GridPane alignment="CENTER">
-                          <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="10.0" prefWidth="30.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                          </columnConstraints>
-                          <rowConstraints>
-                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                            <RowConstraints minHeight="10.0" percentHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                          </rowConstraints>
-                           <children>
-                              <LineChart fx:id="lineChartArea" GridPane.columnIndex="1">
-                                <xAxis>
-                                  <CategoryAxis side="BOTTOM" />
-                                </xAxis>
-                                <yAxis>
-                                  <NumberAxis side="LEFT" />
-                                </yAxis>
-                              </LineChart>
-                              <TextField fx:id="yMaxValueField" alignment="CENTER" maxWidth="100.0" promptText="Y макс." styleClass="default" stylesheets="@MyTextFieldStyle.css" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+                              <ToggleButton fx:id="pauseButton" contentDisplay="CENTER" focusTraversable="false" mnemonicParsing="false" styleClass="default" stylesheets="@MyButtonStyle.css" text="Пауза" textAlignment="CENTER">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
-                              </TextField>
-                              <TextField fx:id="yMinValueField" alignment="CENTER" maxWidth="100.0" promptText="Y мин." styleClass="default" stylesheets="@MyTextFieldStyle.css" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                              </TextField>
-                              <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                                 <children>
-                                    <ToggleButton fx:id="pauseButton" contentDisplay="CENTER" focusTraversable="false" mnemonicParsing="false" styleClass="default" stylesheets="@MyButtonStyle.css" text="Пауза" textAlignment="CENTER">
-                                       <font>
-                                          <Font size="18.0" />
-                                       </font>
-                                       <HBox.margin>
-                                          <Insets left="60.0" right="60.0" />
-                                       </HBox.margin>
-                                    </ToggleButton>
-                                 </children>
-                              </HBox>
+                                 <HBox.margin>
+                                    <Insets left="60.0" right="60.0" />
+                                 </HBox.margin>
+                              </ToggleButton>
                            </children>
-                        </GridPane>
+                        </HBox>
                      </children>
                   </GridPane>
-                  <VBox alignment="CENTER" GridPane.columnIndex="1">
+                  <GridPane alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                     <columnConstraints>
+                        <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" percentWidth="7.0" prefWidth="30.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" percentWidth="31.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" percentWidth="31.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" percentWidth="31.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" percentHeight="100.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
+                     </rowConstraints>
                      <children>
-                        <Text fx:id="connectionStatus" strokeType="OUTSIDE" strokeWidth="0.0" text="Не подключено">
-                           <VBox.margin>
-                              <Insets bottom="10.0" />
-                           </VBox.margin>
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Text>
-                        <ComboBox fx:id="comPortChoice" maxWidth="1.7976931348623157E308" promptText="COM-порт" styleClass="default" stylesheets="@MyButtonStyle.css">
-                           <VBox.margin>
-                              <Insets bottom="20.0" />
-                           </VBox.margin>
-                        </ComboBox>
-                        <Button fx:id="comPortConnectButton" alignment="CENTER" focusTraversable="false" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="default" stylesheets="@MyButtonStyle.css" text="Подключиться">
-                           <VBox.margin>
-                              <Insets bottom="20.0" />
-                           </VBox.margin>
-                        </Button>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="α-фильтр">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets bottom="10.0" />
-                           </VBox.margin>
-                        </Text>
-                        <TextField fx:id="alphaFilterField" promptText="Значение" styleClass="default" stylesheets="@MyTextFieldStyle.css">
-                           <VBox.margin>
-                              <Insets bottom="10.0" />
-                           </VBox.margin>
-                        </TextField>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Задание частоты">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets bottom="10.0" />
-                           </VBox.margin>
-                        </Text>
-                        <TextField fx:id="frequencySetField" promptText="Гц" styleClass="default" stylesheets="@MyTextFieldStyle.css">
-                           <VBox.margin>
-                              <Insets bottom="10.0" />
-                           </VBox.margin>
-                        </TextField>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ток задания">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets bottom="10.0" />
-                           </VBox.margin>
-                        </Text>
-                        <TextField fx:id="currentSetField" promptText="А" styleClass="default" stylesheets="@MyTextFieldStyle.css">
-                           <VBox.margin>
-                              <Insets bottom="10.0" />
-                           </VBox.margin>
-                        </TextField>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Текущая частота">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets bottom="10.0" />
-                           </VBox.margin>
-                        </Text>
-                        <TextField fx:id="frequencyField" promptText="Гц" styleClass="default" stylesheets="@MyTextFieldStyle.css">
-                           <VBox.margin>
-                              <Insets bottom="10.0" />
-                           </VBox.margin>
-                        </TextField>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Длительность">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets bottom="10.0" />
-                           </VBox.margin>
-                        </Text>
-                        <TextField fx:id="duration" alignment="CENTER" maxWidth="100.0" promptText="с" styleClass="default" stylesheets="@MyTextFieldStyle.css">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets bottom="20.0" />
-                           </VBox.margin>
-                        </TextField>
-                        <ToggleButton fx:id="acsEnableButton" contentDisplay="CENTER" focusTraversable="false" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onAcsEnableButtonPress" styleClass="start" stylesheets="@MyButtonStyle.css" text="Включить САУ" textAlignment="CENTER">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets bottom="20.0" />
-                           </VBox.margin>
-                        </ToggleButton>
-                        <ToggleButton fx:id="startButton" contentDisplay="CENTER" focusTraversable="false" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onStartButtonPress" styleClass="start" stylesheets="@MyButtonStyle.css" text="Старт" textAlignment="CENTER">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets />
-                           </VBox.margin>
-                        </ToggleButton>
+                        <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                           <children>
+                              <CheckBox fx:id="plot1checkBox" focusTraversable="false" mnemonicParsing="false" selected="true" text="Задание">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </CheckBox>
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="RED" height="25.0" stroke="BLACK" strokeType="INSIDE" width="25.0">
+                                 <HBox.margin>
+                                    <Insets left="20.0" />
+                                 </HBox.margin>
+                              </Rectangle>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                           <children>
+                              <CheckBox fx:id="plot2checkBox" focusTraversable="false" mnemonicParsing="false" selected="true" text="Без α-фильтра">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </CheckBox>
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="LIME" height="25.0" stroke="BLACK" strokeType="INSIDE" width="25.0">
+                                 <HBox.margin>
+                                    <Insets left="20.0" />
+                                 </HBox.margin>
+                              </Rectangle>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                           <children>
+                              <CheckBox fx:id="plot3checkBox" focusTraversable="false" mnemonicParsing="false" selected="true" text="С α-фильтром">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </CheckBox>
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="BLUE" height="25.0" stroke="BLACK" strokeType="INSIDE" width="25.0">
+                                 <HBox.margin>
+                                    <Insets left="20.0" />
+                                 </HBox.margin>
+                              </Rectangle>
+                           </children>
+                        </HBox>
                      </children>
-                  </VBox>
+                  </GridPane>
                </children>
             </GridPane>
+            <VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+               <children>
+                  <GridPane alignment="CENTER" VBox.vgrow="ALWAYS">
+                    <columnConstraints>
+                      <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
+                    </rowConstraints>
+                     <children>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                           <children>
+                              <Text fx:id="connectionStatus" strokeType="OUTSIDE" strokeWidth="0.0" text="Не подключено" VBox.vgrow="ALWAYS">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin>
+                              </Text>
+                              <ComboBox fx:id="comPortChoice" maxWidth="1.7976931348623157E308" promptText="COM-порт" styleClass="default" stylesheets="@MyButtonStyle.css" VBox.vgrow="ALWAYS" />
+                           </children>
+                        </VBox>
+                        <Button fx:id="comPortConnectButton" alignment="CENTER" focusTraversable="false" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="default" stylesheets="@MyButtonStyle.css" text="Подключиться" GridPane.rowIndex="1" />
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="2">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="α-фильтр">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin>
+                              </Text>
+                              <TextField fx:id="alphaFilterField" promptText="Значение" styleClass="default" stylesheets="@MyTextFieldStyle.css" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="3">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Задание частоты">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin>
+                              </Text>
+                              <TextField fx:id="frequencySetField" promptText="Гц" styleClass="default" stylesheets="@MyTextFieldStyle.css" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="4">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ток задания">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin>
+                              </Text>
+                              <TextField fx:id="currentSetField" promptText="А" styleClass="default" stylesheets="@MyTextFieldStyle.css" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="5">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Текущая частота">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin>
+                              </Text>
+                              <TextField fx:id="frequencyField" promptText="Гц" styleClass="default" stylesheets="@MyTextFieldStyle.css" />
+                           </children>
+                        </VBox>
+                        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="6">
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Длительность">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin>
+                              </Text>
+                              <TextField fx:id="duration" alignment="CENTER" maxWidth="100.0" promptText="с" styleClass="default" stylesheets="@MyTextFieldStyle.css">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </TextField>
+                           </children>
+                        </VBox>
+                        <ToggleButton fx:id="acsEnableButton" contentDisplay="CENTER" focusTraversable="false" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onAcsEnableButtonPress" styleClass="start" stylesheets="@MyButtonStyle.css" text="Включить САУ" textAlignment="CENTER" GridPane.rowIndex="7">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </ToggleButton>
+                        <ToggleButton fx:id="startButton" contentDisplay="CENTER" focusTraversable="false" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onStartButtonPress" styleClass="start" stylesheets="@MyButtonStyle.css" text="Старт" textAlignment="CENTER" GridPane.rowIndex="8">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </ToggleButton>
+                     </children>
+                  </GridPane>
+               </children>
+            </VBox>
          </children>
-         <padding>
-            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-         </padding>
       </GridPane>
    </children>
-</Pane>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
+</GridPane>

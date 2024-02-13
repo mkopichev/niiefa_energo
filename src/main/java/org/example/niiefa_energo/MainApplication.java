@@ -18,10 +18,12 @@ public class MainApplication extends Application {
     public void start(Stage stage) throws IOException {
 
         FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("sceneMain.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
+        Scene scene = new Scene(fxmlLoader.load(), 1366, 768);
         mainController = fxmlLoader.getController();
-        stage.setMaximized(true);
+        stage.setMinHeight(768);
+        stage.setMinWidth(1366);
         stage.setResizable(true);
+        stage.setMaximized(true);
         stage.setTitle("ЧМИ ИТ 300-15");
         stage.getIcons().add(new Image(Objects.requireNonNull(MainApplication.class.getResourceAsStream("appIcon.png"))));
         stage.setScene(scene);
