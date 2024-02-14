@@ -16,9 +16,10 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.util.Queue;
 import java.util.ResourceBundle;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+
+import com.google.common.collect.EvictingQueue;
 
 public class MainController implements Initializable, Notification {
 
@@ -88,6 +89,14 @@ public class MainController implements Initializable, Notification {
     float alpha = 0.0f;
     float freq = 0.0f;
     float current = 0.0f;
+    float duration_time = 0.0f;
+
+    Queue<Float> currentQueue = EvictingQueue.create(1000);
+    Queue<Float> currentFilteredQueue = EvictingQueue.create(1000);
+    Queue<Float> currentSetpointQueue = EvictingQueue.create(1000);
+    Queue<Float> frequencyQueue = EvictingQueue.create(1000);
+
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -128,17 +137,29 @@ public class MainController implements Initializable, Notification {
                 while (true) {
                     try {
                         if(inputStream != null) {
-                            if(inputStream.available() > )
+                            byte[] buf = new byte[18];
+                            if (readInputStreamWithTimeout(inputStream, buf, 2, 18) == 18) {
+//                                System.out.println(Arrays.toString(buf));
+                                ByteBuffer bb = ByteBuffer.wrap(buf);
+                                bb.order(ByteOrder.LITTLE_ENDIAN);
+                                Float a = bb.getFloat(2);
+                                currentQueue.add(a);
+                                Float b = bb.getFloat(6);
+                                currentFilteredQueue.add(b);
+                                Float c = bb.getFloat(10);
+                                currentSetpointQueue.add(c);
+                                Float d = bb.getFloat(14);
+                                frequencyQueue.add(d);
+                                System.out.println(a.toString() + '\t' + b.toString() + '\t' + c.toString() + '\t' + d.toString());
+                            }
                         }
                     } catch (SerialPortTimeoutException e) {
-
+                        e.printStackTrace();
                     } catch (IOException e) {
-
+                        connectionStatus.setText("Ошибка COM-порта");
                     }
 
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
+                    if(Thread.interrupted()) {
                         if (serialPort != null)
                             serialPort.closePort();
                         return;
@@ -190,10 +211,7 @@ public class MainController implements Initializable, Notification {
                 connectionStatus.setText("Подключено");
             }
         });
-        background.setOnMousePressed(event -> {
-            if (!alphaFilterField.equals(event.getSource()))
-                alphaFilterField.getParent().requestFocus();
-        });
+        background.setOnMousePressed(event -> background.requestFocus());
         alphaFilterField.focusedProperty().addListener((observable, outOfFocus, inFocus) -> {
             alphaFilterField.getStyleClass().removeAll("invalid");
             if (outOfFocus) {
@@ -221,6 +239,20 @@ public class MainController implements Initializable, Notification {
                     current = Float.parseFloat(currentSetField.getText().strip().replaceAll(",", "."));
                 } catch (NumberFormatException e) {
                     currentSetField.getStyleClass().add("invalid");
+                }
+            }
+        });
+        duration.focusedProperty().addListener((observable, outOfFocus, inFocus) -> {
+            currentSetField.getStyleClass().removeAll("invalid");
+            if (outOfFocus) {
+                try {
+                    duration_time = Float.parseFloat(duration.getText().strip().replaceAll(",", "."));
+                    if(duration_time > 1.0f){
+                        duration.setText(String.valueOf(1.0f));
+                        duration_time = 1.0f;
+                    }
+                } catch (NumberFormatException e) {
+                    duration.getStyleClass().add("invalid");
                 }
             }
         });
@@ -259,8 +291,39 @@ public class MainController implements Initializable, Notification {
         }
     }
 
+    public static int readInputStreamWithTimeout(InputStream is, byte[] b, int timeoutMillis, int length)
+            throws IOException {
+        long maxTimeMillis = System.currentTimeMillis() + timeoutMillis;
+        while (b[0] != (byte)0xAA && b[1] != (byte)0xBB) {
+            if (!readOneByteTimeout(is, b, 0, maxTimeMillis)) return -1;
+            if (b[0] == (byte)0xAA) {
+                if (!readOneByteTimeout(is, b, 1, maxTimeMillis)) return -1;
+            }
+        }
+        int bufferOffset = 2;
+        while (System.currentTimeMillis() < maxTimeMillis && bufferOffset < b.length) {
+            int readLength = java.lang.Math.min(is.available(), length - bufferOffset);
+            // can alternatively use bufferedReader, guarded by isReady():
+            int readResult = is.read(b, bufferOffset, readLength);
+            if (readResult == -1) break;
+            bufferOffset += readResult;
+        }
+        return bufferOffset;
+    }
+
+    public static boolean readOneByteTimeout(InputStream is, byte[] buffer, int position, long endTime) throws IOException {
+        while (System.currentTimeMillis() < endTime) {
+            if (is.available() > 0) {
+                is.read(buffer, position, 1);
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public void closeApp() {
         serialThreadOutput.interrupt();
+        serialThreadInput.interrupt();
     }
 }
