@@ -81,11 +81,11 @@ public class MainController implements Initializable, Notification {
 
     private Thread serialThreadOutput;
 
+    private Thread serialThreadInput;
+
     float alpha = 0.0f;
     float freq = 0.0f;
     float current = 0.0f;
-
-    ExecutorService es = Executors.newSingleThreadExecutor();
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -112,13 +112,40 @@ public class MainController implements Initializable, Notification {
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
-                        serialPort.closePort();
+                        if(serialPort != null)
+                            serialPort.closePort();
                         return;
                     }
                 }
             }
         });
         serialThreadOutput.start();
+
+        serialThreadInput = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    try {
+                        if(inputStream != null) {
+                            if(inputStream.available() > )
+                        }
+                    } catch (SerialPortTimeoutException e) {
+
+                    } catch (IOException e) {
+
+                    }
+
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        if (serialPort != null)
+                            serialPort.closePort();
+                        return;
+                    }
+                }
+            }
+        });
+        serialThreadInput.start();
 
         comPortChoice.showingProperty().addListener((observable, wasShowing, isShowing) ->
         {
