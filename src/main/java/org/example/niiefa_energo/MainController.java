@@ -2,13 +2,20 @@ package org.example.niiefa_energo;
 
 import com.fazecast.jSerialComm.SerialPort;
 import com.fazecast.jSerialComm.SerialPortTimeoutException;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Region;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
+
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,8 +23,7 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.util.Queue;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import com.google.common.collect.EvictingQueue;
 
@@ -51,7 +57,7 @@ public class MainController implements Initializable, Notification {
     private TextField frequencySetField;
 
     @FXML
-    private LineChart<?, ?> lineChartArea;
+    private LineChart<Number, Number> lineChartArea;
 
     @FXML
     private CheckBox plot1checkBox;
@@ -86,17 +92,22 @@ public class MainController implements Initializable, Notification {
 
     private Thread serialThreadInput;
 
+    private Thread plotThread;
+
     float alpha = 0.0f;
     float freq = 0.0f;
     float current = 0.0f;
     float duration_time = 0.0f;
 
-    Queue<Float> currentQueue = EvictingQueue.create(1000);
-    Queue<Float> currentFilteredQueue = EvictingQueue.create(1000);
-    Queue<Float> currentSetpointQueue = EvictingQueue.create(1000);
-    Queue<Float> frequencyQueue = EvictingQueue.create(1000);
+    Float[] currentQueue = new Float[1000];
+    Float[] currentFilteredQueue = new Float[1000];
+    Float[] currentSetpointQueue = new Float[1000];
+    Float frequencyQueue = 0.0f;
 
-
+    XYChart.Series<Number, Number> dataset1;
+    XYChart.Series<Number, Number> dataset2;
+    XYChart.Series<Number, Number> dataset3;
+    XYChart.Series<Number, Number> dataset4;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -134,6 +145,7 @@ public class MainController implements Initializable, Notification {
         serialThreadInput = new Thread(new Runnable() {
             @Override
             public void run() {
+                int i = 0;
                 while (true) {
                     try {
                         if(inputStream != null) {
@@ -142,20 +154,40 @@ public class MainController implements Initializable, Notification {
 //                                System.out.println(Arrays.toString(buf));
                                 ByteBuffer bb = ByteBuffer.wrap(buf);
                                 bb.order(ByteOrder.LITTLE_ENDIAN);
-                                Float a = bb.getFloat(2);
-                                currentQueue.add(a);
-                                Float b = bb.getFloat(6);
-                                currentFilteredQueue.add(b);
-                                Float c = bb.getFloat(10);
-                                currentSetpointQueue.add(c);
-                                Float d = bb.getFloat(14);
-                                frequencyQueue.add(d);
-                                System.out.println(a.toString() + '\t' + b.toString() + '\t' + c.toString() + '\t' + d.toString());
+                                currentQueue[i] = bb.getFloat(2);
+                                currentFilteredQueue[i] = bb.getFloat(6);
+                                currentSetpointQueue[i] = bb.getFloat(10);
+                                frequencyQueue = bb.getFloat(14);
+//                                System.out.println(currentQueue[i].toString() + '\t' + currentFilteredQueue[i].toString()
+//                                        + '\t' + currentSetpointQueue[i].toString() + '\t' + frequencyQueue[i].toString());
+                                i++;
+                            }
+                            if(i >= 1000) {
+                                dataset1 = generateSeries(currentQueue, "Current");
+                                dataset2 = generateSeries(currentFilteredQueue, "Current Filtered");
+                                dataset3 = generateSeries(currentSetpointQueue, "Current Setpoint");
+
+                                Platform.runLater(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        try {
+                                            lineChartArea.getData().remove(0, 3);
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                        lineChartArea.getData().add(dataset1);
+                                        lineChartArea.getData().add(dataset2);
+                                        lineChartArea.getData().add(dataset3);
+                                    }
+                                });
+                                i = 0;
                             }
                         }
                     } catch (SerialPortTimeoutException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
+                        inputStream = null;
+                        i = 0;
                         connectionStatus.setText("Ошибка COM-порта");
                     }
 
@@ -256,6 +288,20 @@ public class MainController implements Initializable, Notification {
                 }
             }
         });
+
+        lineChartArea.setAnimated(false);
+
+    }
+
+    private XYChart.Series<Number, Number> generateSeries(Float[] y, String name){
+        XYChart.Series<Number, Number> series = new XYChart.Series<>();
+        series.setName(name);
+        List<XYChart.Data<Number, Number>> dataPoints = new ArrayList<>();
+        for(int i = 0; i < 1000; i++){
+            dataPoints.add(new XYChart.Data<>(i, y[i]));
+        }
+        series.getData().addAll(dataPoints);
+        return series;
     }
 
     @FXML

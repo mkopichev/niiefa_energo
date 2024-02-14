@@ -78,7 +78,7 @@
                      <children>
                         <LineChart fx:id="lineChartArea" GridPane.columnIndex="1">
                            <xAxis>
-                              <CategoryAxis side="BOTTOM" />
+                              <NumberAxis side="BOTTOM" />
                            </xAxis>
                            <yAxis>
                               <NumberAxis side="LEFT" />
