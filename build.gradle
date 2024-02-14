@@ -33,6 +33,7 @@ javafx {
 
 dependencies {
     implementation('com.fazecast:jSerialComm:[2.0.0,3.0.0)')
+    implementation('com.google.guava:guava:33.0.0-jre')
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
