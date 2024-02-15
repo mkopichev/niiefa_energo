@@ -119,13 +119,13 @@ public class MainController implements Initializable, Notification {
                     try {
                         if (outputStream != null) {
                             // 2 start bytes, alpha_filter_float, frequency_float, current_float, mode_byte
-                            ByteBuffer buf = ByteBuffer.allocate(2 + 4 + 4 + 4 + 1);
+                            ByteBuffer buf = ByteBuffer.allocate(2 + 4 + 4 + 4 + 1 + 1);
                             buf.order(ByteOrder.LITTLE_ENDIAN);
-                            buf.put((byte) 'a').put((byte) 'f').putFloat(alpha).putFloat(freq).putFloat(current).put((byte) 1);
+                            buf.put((byte) 'a').put((byte) 'f').putFloat(alpha).putFloat(freq).putFloat(current).put((byte) 112).put((byte) 0xAA);
                             outputStream.write(buf.array());
                         }
                     } catch (SerialPortTimeoutException e) {
-                        e.printStackTrace();
+                        connectionStatus.setText("Ошибка COM-порта");
                     } catch (IOException e) {
                         connectionStatus.setText("Ошибка COM-порта");
                         e.printStackTrace();
@@ -149,15 +149,15 @@ public class MainController implements Initializable, Notification {
                 while (true) {
                     try {
                         if(inputStream != null) {
-                            byte[] buf = new byte[18];
-                            if (readInputStreamWithTimeout(inputStream, buf, 2, 18) == 18) {
-//                                System.out.println(Arrays.toString(buf));
+                            byte[] buf = new byte[10];
+                            if (readInputStreamWithTimeout(inputStream, buf, 10, 10) == 10) {
+                                System.out.println(Arrays.toString(buf));
                                 ByteBuffer bb = ByteBuffer.wrap(buf);
                                 bb.order(ByteOrder.LITTLE_ENDIAN);
                                 currentQueue[i] = bb.getFloat(2);
                                 currentFilteredQueue[i] = bb.getFloat(6);
-                                currentSetpointQueue[i] = bb.getFloat(10);
-                                frequencyQueue = bb.getFloat(14);
+//                                currentSetpointQueue[i] = bb.getFloat(10);
+//                                frequencyQueue = bb.getFloat(14);
 //                                System.out.println(currentQueue[i].toString() + '\t' + currentFilteredQueue[i].toString()
 //                                        + '\t' + currentSetpointQueue[i].toString() + '\t' + frequencyQueue[i].toString());
                                 i++;
@@ -165,19 +165,19 @@ public class MainController implements Initializable, Notification {
                             if(i >= 1000) {
                                 dataset1 = generateSeries(currentQueue, "Current");
                                 dataset2 = generateSeries(currentFilteredQueue, "Current Filtered");
-                                dataset3 = generateSeries(currentSetpointQueue, "Current Setpoint");
+//                                dataset3 = generateSeries(currentSetpointQueue, "Current Setpoint");
 
                                 Platform.runLater(new Runnable() {
                                     @Override
                                     public void run() {
                                         try {
-                                            lineChartArea.getData().remove(0, 3);
+                                            lineChartArea.getData().remove(0, 2);
                                         } catch (Exception e) {
                                             e.printStackTrace();
                                         }
                                         lineChartArea.getData().add(dataset1);
                                         lineChartArea.getData().add(dataset2);
-                                        lineChartArea.getData().add(dataset3);
+//                                        lineChartArea.getData().add(dataset3);
                                     }
                                 });
                                 i = 0;
@@ -290,6 +290,7 @@ public class MainController implements Initializable, Notification {
         });
 
         lineChartArea.setAnimated(false);
+
 
     }
 

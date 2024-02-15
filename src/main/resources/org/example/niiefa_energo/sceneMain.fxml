@@ -78,10 +78,10 @@
                      <children>
                         <LineChart fx:id="lineChartArea" GridPane.columnIndex="1">
                            <xAxis>
-                              <NumberAxis side="BOTTOM" />
+                              <NumberAxis side="BOTTOM"  />
                            </xAxis>
                            <yAxis>
-                              <NumberAxis side="LEFT" />
+                              <NumberAxis side="LEFT" autoRanging="true"/>
                            </yAxis>
                         </LineChart>
                         <TextField fx:id="yMaxValueField" alignment="CENTER" focusTraversable="false" promptText="Y макс." styleClass="default" stylesheets="@MyTextFieldStyle.css" GridPane.halignment="CENTER" GridPane.valignment="TOP">
