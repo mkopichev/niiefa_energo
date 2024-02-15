@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
@@ -78,10 +78,10 @@
                      <children>
                         <LineChart fx:id="lineChartArea" GridPane.columnIndex="1">
                            <xAxis>
-                              <NumberAxis side="BOTTOM"  />
+                              <NumberAxis side="BOTTOM" />
                            </xAxis>
                            <yAxis>
-                              <NumberAxis side="LEFT" autoRanging="true"/>
+                              <NumberAxis autoRanging="true" side="LEFT" />
                            </yAxis>
                         </LineChart>
                         <TextField fx:id="yMaxValueField" alignment="CENTER" focusTraversable="false" promptText="Y макс." styleClass="default" stylesheets="@MyTextFieldStyle.css" GridPane.halignment="CENTER" GridPane.valignment="TOP">
@@ -220,7 +220,10 @@
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <TextField fx:id="frequencyField" promptText="Гц" styleClass="default" stylesheets="@MyTextFieldStyle.css" GridPane.rowIndex="10" GridPane.valignment="CENTER" />
+                  <TextField fx:id="frequencyField" editable="false" styleClass="not_editable" stylesheets="@MyTextFieldStyle.css" GridPane.rowIndex="10" GridPane.valignment="CENTER">
+                     <cursor>
+                        <Cursor fx:constant="DEFAULT" />
+                     </cursor></TextField>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Длительность" GridPane.rowIndex="11">
                      <font>
                         <Font size="18.0" />
