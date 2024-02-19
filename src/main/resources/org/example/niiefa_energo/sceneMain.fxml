@@ -137,7 +137,7 @@
                               </TextField>
                            </children>
                         </GridPane>
-                        <Button fx:id="resetYaxis" alignment="CENTER" focusTraversable="false" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="default" stylesheets="@MyButtonStyle.css" text="Сброс" />
+                        <Button fx:id="resetYaxis" alignment="CENTER" focusTraversable="false" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="default" stylesheets="@MyButtonStyle.css" text="Сброс" textAlignment="CENTER" wrapText="true" />
                      </children>
                   </GridPane>
                   <GridPane alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
