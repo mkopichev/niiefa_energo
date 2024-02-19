@@ -10,6 +10,7 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
@@ -133,7 +134,7 @@ public class MainController implements Initializable, Notification {
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
-                        if(serialPort != null)
+                        if (serialPort != null)
                             serialPort.closePort();
                         return;
                     }
@@ -148,7 +149,7 @@ public class MainController implements Initializable, Notification {
                 int i = 0;
                 while (true) {
                     try {
-                        if(inputStream != null) {
+                        if (inputStream != null) {
                             byte[] buf = new byte[10];
                             if (readInputStreamWithTimeout(inputStream, buf, 10, 10) == 10) {
                                 System.out.println(Arrays.toString(buf));
@@ -162,7 +163,7 @@ public class MainController implements Initializable, Notification {
 //                                        + '\t' + currentSetpointQueue[i].toString() + '\t' + frequencyQueue[i].toString());
                                 i++;
                             }
-                            if(i >= 1000) {
+                            if (i >= 1000) {
                                 dataset1 = generateSeries(currentQueue, "Current");
                                 dataset2 = generateSeries(currentFilteredQueue, "Current Filtered");
 //                                dataset3 = generateSeries(currentSetpointQueue, "Current Setpoint");
@@ -191,7 +192,7 @@ public class MainController implements Initializable, Notification {
                         connectionStatus.setText("Ошибка COM-порта");
                     }
 
-                    if(Thread.interrupted()) {
+                    if (Thread.interrupted()) {
                         if (serialPort != null)
                             serialPort.closePort();
                         return;
@@ -227,7 +228,16 @@ public class MainController implements Initializable, Notification {
                 }
             }
         });
-
+        yMinValueField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                background.requestFocus();
+            }
+        });
+        yMaxValueField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                background.requestFocus();
+            }
+        });
         comPortConnectButton.pressedProperty().addListener((observable, released, pressed) -> {
             if (released) {
                 if (serialPortName == null)
@@ -254,6 +264,11 @@ public class MainController implements Initializable, Notification {
                 }
             }
         });
+        alphaFilterField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                background.requestFocus();
+            }
+        });
         frequencySetField.focusedProperty().addListener((observable, outOfFocus, inFocus) -> {
             frequencySetField.getStyleClass().removeAll("invalid");
             if (outOfFocus) {
@@ -262,6 +277,11 @@ public class MainController implements Initializable, Notification {
                 } catch (NumberFormatException e) {
                     frequencySetField.getStyleClass().add("invalid");
                 }
+            }
+        });
+        frequencySetField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                background.requestFocus();
             }
         });
         currentSetField.focusedProperty().addListener((observable, outOfFocus, inFocus) -> {
@@ -274,12 +294,17 @@ public class MainController implements Initializable, Notification {
                 }
             }
         });
+        currentSetField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                background.requestFocus();
+            }
+        });
         duration.focusedProperty().addListener((observable, outOfFocus, inFocus) -> {
             currentSetField.getStyleClass().removeAll("invalid");
             if (outOfFocus) {
                 try {
                     duration_time = Float.parseFloat(duration.getText().strip().replaceAll(",", "."));
-                    if(duration_time > 1.0f){
+                    if (duration_time > 1.0f) {
                         duration.setText(String.valueOf(1.0f));
                         duration_time = 1.0f;
                     }
@@ -294,11 +319,11 @@ public class MainController implements Initializable, Notification {
 
     }
 
-    private XYChart.Series<Number, Number> generateSeries(Float[] y, String name){
+    private XYChart.Series<Number, Number> generateSeries(Float[] y, String name) {
         XYChart.Series<Number, Number> series = new XYChart.Series<>();
         series.setName(name);
         List<XYChart.Data<Number, Number>> dataPoints = new ArrayList<>();
-        for(int i = 0; i < 1000; i++){
+        for (int i = 0; i < 1000; i++) {
             dataPoints.add(new XYChart.Data<>(i, y[i]));
         }
         series.getData().addAll(dataPoints);
@@ -341,9 +366,9 @@ public class MainController implements Initializable, Notification {
     public static int readInputStreamWithTimeout(InputStream is, byte[] b, int timeoutMillis, int length)
             throws IOException {
         long maxTimeMillis = System.currentTimeMillis() + timeoutMillis;
-        while (b[0] != (byte)0xAA && b[1] != (byte)0xBB) {
+        while (b[0] != (byte) 0xAA && b[1] != (byte) 0xBB) {
             if (!readOneByteTimeout(is, b, 0, maxTimeMillis)) return -1;
-            if (b[0] == (byte)0xAA) {
+            if (b[0] == (byte) 0xAA) {
                 if (!readOneByteTimeout(is, b, 1, maxTimeMillis)) return -1;
             }
         }

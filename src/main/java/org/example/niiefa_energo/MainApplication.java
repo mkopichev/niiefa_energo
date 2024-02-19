@@ -1,15 +1,10 @@
 package org.example.niiefa_energo;
 
 import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.event.Event;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-
 
 import java.io.IOException;
 import java.util.Objects;
