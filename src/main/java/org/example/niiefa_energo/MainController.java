@@ -315,8 +315,6 @@ public class MainController implements Initializable, Notification {
         });
 
         lineChartArea.setAnimated(false);
-
-
     }
 
     private XYChart.Series<Number, Number> generateSeries(Float[] y, String name) {
@@ -391,6 +389,17 @@ public class MainController implements Initializable, Notification {
             }
         }
         return false;
+    }
+
+    @FXML
+    void checkBoxEvent(ActionEvent event) {
+        CheckBox checkBox = (CheckBox) event.getSource();
+        if (checkBox == plot1checkBox) {
+        }
+        if (checkBox == plot2checkBox) {
+        }
+        if (checkBox == plot3checkBox) {
+        }
     }
 
     @Override

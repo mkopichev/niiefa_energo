@@ -153,7 +153,7 @@
                      <children>
                         <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                            <children>
-                              <CheckBox fx:id="plot1checkBox" focusTraversable="false" mnemonicParsing="false" selected="true" text="Задание">
+                              <CheckBox fx:id="plot1checkBox" focusTraversable="false" mnemonicParsing="false" onAction="#checkBoxEvent" selected="true" text="Задание">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -170,7 +170,7 @@
                         </HBox>
                         <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                            <children>
-                              <CheckBox fx:id="plot2checkBox" focusTraversable="false" mnemonicParsing="false" selected="true" text="Без α-фильтра">
+                              <CheckBox fx:id="plot2checkBox" focusTraversable="false" mnemonicParsing="false" onAction="#checkBoxEvent" selected="true" text="Без α-фильтра">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
@@ -184,7 +184,7 @@
                         </HBox>
                         <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                            <children>
-                              <CheckBox fx:id="plot3checkBox" focusTraversable="false" mnemonicParsing="false" selected="true" text="С α-фильтром">
+                              <CheckBox fx:id="plot3checkBox" focusTraversable="false" mnemonicParsing="false" onAction="#checkBoxEvent" selected="true" text="С α-фильтром">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
