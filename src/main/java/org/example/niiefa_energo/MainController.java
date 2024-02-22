@@ -159,15 +159,13 @@ public class MainController implements Initializable, Notification {
                         if (inputStream != null) {
                             byte[] buf = new byte[18];
                             if (readInputStreamWithTimeout(inputStream, buf, 10, 18) == 18) {
-                                System.out.println(Arrays.toString(buf));
                                 ByteBuffer bb = ByteBuffer.wrap(buf);
                                 bb.order(ByteOrder.LITTLE_ENDIAN);
                                 currentQueue[i] = bb.getFloat(2);
                                 currentFilteredQueue[i] = bb.getFloat(6);
                                 currentSetpointQueue[i] = bb.getFloat(10);
                                 frequencyQueue = bb.getFloat(14);
-//                                System.out.println(currentQueue[i].toString() + '\t' + currentFilteredQueue[i].toString()
-//                                        + '\t' + currentSetpointQueue[i].toString() + '\t' + frequencyQueue[i].toString());
+
                                 i++;
                             }
                             if (i >= 1000) {
@@ -393,17 +391,6 @@ public class MainController implements Initializable, Notification {
                 yMaxValueField.setText("");
             }
         });
-    }
-
-    private XYChart.Series<Number, Number> generateSeries(Float[] y, String name) {
-        XYChart.Series<Number, Number> series = new XYChart.Series<>();
-        series.setName(name);
-        List<XYChart.Data<Number, Number>> dataPoints = new ArrayList<>();
-        for (int i = 0; i < 1000; i++) {
-            dataPoints.add(new XYChart.Data<>(i, y[i]));
-        }
-        series.getData().addAll(dataPoints);
-        return series;
     }
 
     boolean pause = false;

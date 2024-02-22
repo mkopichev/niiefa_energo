@@ -45,10 +45,10 @@ test {
 ext.os = org.gradle.internal.os.OperatingSystem.current()
 
 jlink {
-    imageZip = project.file("${buildDir}/distributions/app-${javafx.platform.classifier}.zip")
+    imageZip = project.file("${layout.buildDirectory}/distributions/app-${javafx.platform.classifier}.zip")
     options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
     launcher {
-        name = 'test_name'
+        name = 'HMI_IT_300-15'
     }
 
     jpackage {
@@ -56,6 +56,8 @@ jlink {
         if (os.macOsX) {
             icon = "src/main/resources/appIcon.icns"
         }
+
+        mainClass = "org.example.niiefa_energo.MainApplication"
 
         if (os.windows) {
             installerOptions += [
