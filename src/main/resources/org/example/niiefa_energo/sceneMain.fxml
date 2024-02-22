@@ -76,9 +76,9 @@
                         <RowConstraints minHeight="10.0" percentHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <LineChart fx:id="lineChartArea" GridPane.columnIndex="1">
+                        <LineChart fx:id="lineChartArea" GridPane.columnIndex="1" createSymbols="false" legendVisible="false">
                            <xAxis>
-                              <NumberAxis side="BOTTOM" />
+                              <NumberAxis autoRanging="false" side="BOTTOM" />
                            </xAxis>
                            <yAxis>
                               <NumberAxis autoRanging="true" side="LEFT" />
@@ -120,7 +120,7 @@
                                     <Font size="18.0" />
                                  </font>
                               </Text>
-                              <TextField fx:id="frequencyBeforeAlphaPkPk" editable="false" styleClass="not_editable" stylesheets="@MyTextFieldStyle.css" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                              <TextField fx:id="currentP2P" editable="false" styleClass="not_editable" stylesheets="@MyTextFieldStyle.css" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                  <cursor>
                                     <Cursor fx:constant="DEFAULT" />
                                  </cursor>
@@ -130,7 +130,7 @@
                                     <Font size="18.0" />
                                  </font>
                               </Text>
-                              <TextField fx:id="frequencyAfterAlphaPkPk" editable="false" styleClass="not_editable" stylesheets="@MyTextFieldStyle.css" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                              <TextField fx:id="currentFilteredP2P" editable="false" styleClass="not_editable" stylesheets="@MyTextFieldStyle.css" GridPane.columnIndex="2" GridPane.rowIndex="1">
                                  <cursor>
                                     <Cursor fx:constant="DEFAULT" />
                                  </cursor>
@@ -251,7 +251,7 @@
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <TextField fx:id="duration" alignment="CENTER" maxWidth="100.0" promptText="с" styleClass="default" stylesheets="@MyTextFieldStyle.css" GridPane.rowIndex="10" GridPane.valignment="CENTER">
+                  <TextField fx:id="duration" text="1.0" alignment="CENTER" maxWidth="100.0" promptText="с" styleClass="default" stylesheets="@MyTextFieldStyle.css" GridPane.rowIndex="10" GridPane.valignment="CENTER">
                      <font>
                         <Font size="18.0" />
                      </font>

@@ -7,7 +7,6 @@ plugins {
 }
 
 group 'org.example'
-version '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
@@ -49,7 +48,7 @@ jlink {
     imageZip = project.file("${buildDir}/distributions/app-${javafx.platform.classifier}.zip")
     options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
     launcher {
-        name = 'ЧМИ ИТ 300-15'
+        name = 'test_name'
     }
 
     jpackage {
@@ -65,7 +64,7 @@ jlink {
                     '--win-menu',
                     '--win-shortcut'
             ]
-            icon = "src/main/resources/appIcon.ico"
+            icon = "D:\\Git\\niiefa_energo\\src\\main\\resources\\org\\example\\niiefa_energo\\appIcon.ico"
         }
     }
 }
