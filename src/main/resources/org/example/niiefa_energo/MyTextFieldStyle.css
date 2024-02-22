@@ -8,6 +8,14 @@
     -fx-border-radius: 3;
 }
 
+.not_editable {
+    -fx-max-width: 125;
+    -fx-pref-height: 30;
+    -fx-font-size: 18px;
+    -fx-alignment: center;
+    -fx-background-color: #331C1C1C;
+}
+
 .default {
     -fx-max-width: 125;
     -fx-pref-height: 30;

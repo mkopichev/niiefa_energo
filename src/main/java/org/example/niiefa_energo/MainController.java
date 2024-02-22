@@ -2,13 +2,18 @@ package org.example.niiefa_energo;
 
 import com.fazecast.jSerialComm.SerialPort;
 import com.fazecast.jSerialComm.SerialPortTimeoutException;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
+
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,12 +21,18 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.util.Queue;
-import java.util.ResourceBundle;
-
-import com.google.common.collect.EvictingQueue;
+import java.util.*;
 
 public class MainController implements Initializable, Notification {
+
+    @FXML
+    public TextField currentP2P;
+
+    @FXML
+    public TextField currentFilteredP2P;
+
+    @FXML
+    public Button resetYaxis;
 
     @FXML
     private GridPane background;
@@ -51,7 +62,7 @@ public class MainController implements Initializable, Notification {
     private TextField frequencySetField;
 
     @FXML
-    private LineChart<?, ?> lineChartArea;
+    private LineChart<Number, Number> lineChartArea;
 
     @FXML
     private CheckBox plot1checkBox;
@@ -86,46 +97,54 @@ public class MainController implements Initializable, Notification {
 
     private Thread serialThreadInput;
 
+    private Thread plotThread;
+
     float alpha = 0.0f;
     float freq = 0.0f;
     float current = 0.0f;
-    float duration_time = 0.0f;
+    byte controlSystem = 0;
+    byte enable = 0;
 
-    Queue<Float> currentQueue = EvictingQueue.create(1000);
-    Queue<Float> currentFilteredQueue = EvictingQueue.create(1000);
-    Queue<Float> currentSetpointQueue = EvictingQueue.create(1000);
-    Queue<Float> frequencyQueue = EvictingQueue.create(1000);
+    float duration_time = 1.0f;
 
+    Float[] currentQueue = new Float[1000];
+    Float[] currentFilteredQueue = new Float[1000];
+    Float[] currentSetpointQueue = new Float[1000];
+    Float frequencyQueue = 0.0f;
 
+    Float[] currentSaved = new Float[1000];
+    Float[] currentFilteredSaved = new Float[1000];
+    Float[] currentSetpointSaved = new Float[1000];
+
+    XYChart.Series<Number, Number> seriesCurrent;
+    XYChart.Series<Number, Number> seriesCurrentFiltered;
+    XYChart.Series<Number, Number> seriesCurrentSetpoint;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        serialThreadOutput = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (true) {
-                    try {
-                        if (outputStream != null) {
-                            // 2 start bytes, alpha_filter_float, frequency_float, current_float, mode_byte
-                            ByteBuffer buf = ByteBuffer.allocate(2 + 4 + 4 + 4 + 1);
-                            buf.order(ByteOrder.LITTLE_ENDIAN);
-                            buf.put((byte) 'a').put((byte) 'f').putFloat(alpha).putFloat(freq).putFloat(current).put((byte) 1);
-                            outputStream.write(buf.array());
-                        }
-                    } catch (SerialPortTimeoutException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        connectionStatus.setText("Ошибка COM-порта");
-                        e.printStackTrace();
+        serialThreadOutput = new Thread(() -> {
+            while (true) {
+                try {
+                    if (outputStream != null) {
+                        // 2 start bytes, alpha_filter_float, frequency_float, current_float, mode_byte
+                        ByteBuffer buf = ByteBuffer.allocate(2 + 4 + 4 + 4 + 1 + 1);
+                        buf.order(ByteOrder.LITTLE_ENDIAN);
+                        buf.put((byte) 'a').put((byte) 'f').putFloat(alpha).putFloat(freq).putFloat(current).put(controlSystem).put(enable);
+                        outputStream.write(buf.array());
                     }
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        if(serialPort != null)
-                            serialPort.closePort();
-                        return;
-                    }
+                } catch (SerialPortTimeoutException e) {
+                    connectionStatus.setText("Ошибка COM-порта");
+                } catch (IOException e) {
+                    connectionStatus.setText("Ошибка COM-порта");
+                    e.printStackTrace();
+                }
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    if (serialPort != null)
+                        serialPort.closePort();
+                    return;
                 }
             }
         });
@@ -134,32 +153,64 @@ public class MainController implements Initializable, Notification {
         serialThreadInput = new Thread(new Runnable() {
             @Override
             public void run() {
+                int i = 0;
                 while (true) {
                     try {
-                        if(inputStream != null) {
+                        if (inputStream != null) {
                             byte[] buf = new byte[18];
-                            if (readInputStreamWithTimeout(inputStream, buf, 2, 18) == 18) {
-//                                System.out.println(Arrays.toString(buf));
+                            if (readInputStreamWithTimeout(inputStream, buf, 10, 18) == 18) {
                                 ByteBuffer bb = ByteBuffer.wrap(buf);
                                 bb.order(ByteOrder.LITTLE_ENDIAN);
-                                Float a = bb.getFloat(2);
-                                currentQueue.add(a);
-                                Float b = bb.getFloat(6);
-                                currentFilteredQueue.add(b);
-                                Float c = bb.getFloat(10);
-                                currentSetpointQueue.add(c);
-                                Float d = bb.getFloat(14);
-                                frequencyQueue.add(d);
-                                System.out.println(a.toString() + '\t' + b.toString() + '\t' + c.toString() + '\t' + d.toString());
+                                currentQueue[i] = bb.getFloat(2);
+                                currentFilteredQueue[i] = bb.getFloat(6);
+                                currentSetpointQueue[i] = bb.getFloat(10);
+                                frequencyQueue = bb.getFloat(14);
+
+                                i++;
+                            }
+                            if (i >= 1000) {
+
+                                if(!pause) {
+                                    System.arraycopy(currentQueue, 0, currentSaved, 0, 1000);
+                                    System.arraycopy(currentFilteredQueue, 0, currentFilteredSaved, 0, 1000);
+                                    System.arraycopy(currentSetpointQueue, 0, currentSetpointSaved, 0, 1000);
+
+                                    Platform.runLater(() -> {
+                                        frequencyField.setText(frequencyQueue.toString());
+                                        List<Float> currentTmp = Arrays.asList(currentSaved);
+                                        float p2p = Collections.max(currentTmp) - Collections.min(currentTmp);
+                                        currentP2P.setText(Float.toString(p2p));
+
+                                        currentTmp = Arrays.asList(currentFilteredSaved);
+                                        p2p = Collections.max(currentTmp) - Collections.min(currentTmp);
+                                        currentFilteredP2P.setText(Float.toString(p2p));
+
+                                        seriesCurrent.getData().clear();
+                                        for (int i1 = 0; i1 < 1000; i1++) {
+                                            seriesCurrent.getData().add(new XYChart.Data<>(i1 * 0.001, currentSaved[i1]));
+                                        }
+                                        seriesCurrentFiltered.getData().clear();
+                                        for (int i1 = 0; i1 < 1000; i1++) {
+                                            seriesCurrentFiltered.getData().add(new XYChart.Data<>(i1 * 0.001, currentFilteredSaved[i1]));
+                                        }
+                                        seriesCurrentSetpoint.getData().clear();
+                                        for (int i1 = 0; i1 < 1000; i1++) {
+                                            seriesCurrentSetpoint.getData().add(new XYChart.Data<>(i1 * 0.001, currentSetpointSaved[i1]));
+                                        }
+                                    });
+                                }
+                                i = 0;
                             }
                         }
                     } catch (SerialPortTimeoutException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
+                        inputStream = null;
+                        i = 0;
                         connectionStatus.setText("Ошибка COM-порта");
                     }
 
-                    if(Thread.interrupted()) {
+                    if (Thread.interrupted()) {
                         if (serialPort != null)
                             serialPort.closePort();
                         return;
@@ -195,7 +246,44 @@ public class MainController implements Initializable, Notification {
                 }
             }
         });
+        yMinValueField.focusedProperty().addListener((observable, outOfFocus, inFocus) -> {
+            yMinValueField.getStyleClass().removeAll("invalid");
+            if (outOfFocus) {
+                double min;
+                try {
+                    min = Double.parseDouble(yMinValueField.getText().strip().replaceAll(",", "."));
+                    lineChartArea.getYAxis().setAutoRanging(false);
+                    ((NumberAxis)lineChartArea.getYAxis()).setLowerBound(min);
+                } catch (NumberFormatException e) {
+                    yMinValueField.getStyleClass().add("invalid");
+                }
+            }
+        });
 
+        yMaxValueField.focusedProperty().addListener((observable, outOfFocus, inFocus) -> {
+            yMaxValueField.getStyleClass().removeAll("invalid");
+            if (outOfFocus) {
+                double max;
+                try {
+                    max = Double.parseDouble(yMaxValueField.getText().strip().replaceAll(",", "."));
+                    lineChartArea.getYAxis().setAutoRanging(false);
+                    ((NumberAxis)lineChartArea.getYAxis()).setUpperBound(max);
+                } catch (NumberFormatException e) {
+                    yMaxValueField.getStyleClass().add("invalid");
+                }
+            }
+        });
+
+        yMinValueField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                background.requestFocus();
+            }
+        });
+        yMaxValueField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                background.requestFocus();
+            }
+        });
         comPortConnectButton.pressedProperty().addListener((observable, released, pressed) -> {
             if (released) {
                 if (serialPortName == null)
@@ -222,6 +310,11 @@ public class MainController implements Initializable, Notification {
                 }
             }
         });
+        alphaFilterField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                background.requestFocus();
+            }
+        });
         frequencySetField.focusedProperty().addListener((observable, outOfFocus, inFocus) -> {
             frequencySetField.getStyleClass().removeAll("invalid");
             if (outOfFocus) {
@@ -230,6 +323,11 @@ public class MainController implements Initializable, Notification {
                 } catch (NumberFormatException e) {
                     frequencySetField.getStyleClass().add("invalid");
                 }
+            }
+        });
+        frequencySetField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                background.requestFocus();
             }
         });
         currentSetField.focusedProperty().addListener((observable, outOfFocus, inFocus) -> {
@@ -242,30 +340,70 @@ public class MainController implements Initializable, Notification {
                 }
             }
         });
+        currentSetField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                background.requestFocus();
+            }
+        });
         duration.focusedProperty().addListener((observable, outOfFocus, inFocus) -> {
             currentSetField.getStyleClass().removeAll("invalid");
             if (outOfFocus) {
                 try {
                     duration_time = Float.parseFloat(duration.getText().strip().replaceAll(",", "."));
-                    if(duration_time > 1.0f){
+                    if (duration_time > 1.0f) {
                         duration.setText(String.valueOf(1.0f));
                         duration_time = 1.0f;
                     }
+                    Platform.runLater(() -> {
+                        ((NumberAxis)lineChartArea.getXAxis()).setUpperBound(duration_time);
+                    });
                 } catch (NumberFormatException e) {
                     duration.getStyleClass().add("invalid");
                 }
             }
         });
+        duration.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                background.requestFocus();
+            }
+        });
+
+        lineChartArea.setAnimated(false);
+        seriesCurrent = new XYChart.Series<>();
+        seriesCurrent.setName("Ток");
+        seriesCurrentSetpoint = new XYChart.Series<>();
+        seriesCurrentSetpoint.setName("Уставка по току");
+        seriesCurrentFiltered = new XYChart.Series<>();
+        seriesCurrentFiltered.setName("Ток с альфа-фльтром");
+        lineChartArea.getData().add(seriesCurrent);
+        lineChartArea.getData().add(seriesCurrentFiltered);
+        lineChartArea.getData().add(seriesCurrentSetpoint);
+        seriesCurrent.getNode().lookup(".chart-series-line").setStyle("-fx-stroke: rgba(0, 255, 0, 1)");
+        seriesCurrentSetpoint.getNode().lookup(".chart-series-line").setStyle("-fx-stroke: rgba(255, 0, 0, 1)");
+        seriesCurrentFiltered.getNode().lookup(".chart-series-line").setStyle("-fx-stroke: rgba(0, 0, 255, 1)");
+        ((NumberAxis)lineChartArea.getXAxis()).setUpperBound(1);
+        ((NumberAxis)lineChartArea.getXAxis()).setLowerBound(0);
+
+        resetYaxis.pressedProperty().addListener((observable, released, pressed) -> {
+            if(released) {
+                lineChartArea.getYAxis().setAutoRanging(true);
+                yMinValueField.setText("");
+                yMaxValueField.setText("");
+            }
+        });
     }
 
+    boolean pause = false;
     @FXML
     void onPauseButtonPress(ActionEvent event) {
         if (((ToggleButton) event.getSource()).getStyleClass().contains("stop")) {
             ((ToggleButton) event.getSource()).getStyleClass().remove("stop");
             ((ToggleButton) event.getSource()).setText("Пауза");
+            pause = false;
         } else {
             ((ToggleButton) event.getSource()).getStyleClass().add("stop");
             ((ToggleButton) event.getSource()).setText("Запуск");
+            pause = true;
         }
     }
 
@@ -274,9 +412,11 @@ public class MainController implements Initializable, Notification {
         if (((ToggleButton) event.getSource()).getStyleClass().contains("stop")) {
             ((ToggleButton) event.getSource()).getStyleClass().remove("stop");
             ((ToggleButton) event.getSource()).setText("Включить САУ");
+            controlSystem = 0;
         } else {
             ((ToggleButton) event.getSource()).getStyleClass().add("stop");
             ((ToggleButton) event.getSource()).setText("Выключить САУ");
+            controlSystem = 1;
         }
     }
 
@@ -285,18 +425,20 @@ public class MainController implements Initializable, Notification {
         if (((ToggleButton) event.getSource()).getStyleClass().contains("stop")) {
             ((ToggleButton) event.getSource()).getStyleClass().remove("stop");
             ((ToggleButton) event.getSource()).setText("Старт");
+            enable = 0;
         } else {
             ((ToggleButton) event.getSource()).getStyleClass().add("stop");
             ((ToggleButton) event.getSource()).setText("Стоп");
+            enable = 1;
         }
     }
 
     public static int readInputStreamWithTimeout(InputStream is, byte[] b, int timeoutMillis, int length)
             throws IOException {
         long maxTimeMillis = System.currentTimeMillis() + timeoutMillis;
-        while (b[0] != (byte)0xAA && b[1] != (byte)0xBB) {
+        while (b[0] != (byte) 0xAA && b[1] != (byte) 0xBB) {
             if (!readOneByteTimeout(is, b, 0, maxTimeMillis)) return -1;
-            if (b[0] == (byte)0xAA) {
+            if (b[0] == (byte) 0xAA) {
                 if (!readOneByteTimeout(is, b, 1, maxTimeMillis)) return -1;
             }
         }
@@ -319,6 +461,20 @@ public class MainController implements Initializable, Notification {
             }
         }
         return false;
+    }
+
+    @FXML
+    void checkBoxEvent(ActionEvent event) {
+        CheckBox checkBox = (CheckBox) event.getSource();
+        if (checkBox == plot1checkBox) {
+            seriesCurrentSetpoint.getNode().setVisible(plot1checkBox.isSelected());
+        }
+        if (checkBox == plot2checkBox) {
+            seriesCurrent.getNode().setVisible(plot2checkBox.isSelected());
+        }
+        if (checkBox == plot3checkBox) {
+            seriesCurrentFiltered.getNode().setVisible(plot3checkBox.isSelected());
+        }
     }
 
     @Override
