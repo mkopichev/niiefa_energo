@@ -102,6 +102,9 @@ public class MainController implements Initializable, Notification {
     float alpha = 0.0f;
     float freq = 0.0f;
     float current = 0.0f;
+    byte controlSystem = 0;
+    byte enable = 0;
+
     float duration_time = 1.0f;
 
     Float[] currentQueue = new Float[1000];
@@ -120,31 +123,28 @@ public class MainController implements Initializable, Notification {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        serialThreadOutput = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (true) {
-                    try {
-                        if (outputStream != null) {
-                            // 2 start bytes, alpha_filter_float, frequency_float, current_float, mode_byte
-                            ByteBuffer buf = ByteBuffer.allocate(2 + 4 + 4 + 4 + 1 + 1);
-                            buf.order(ByteOrder.LITTLE_ENDIAN);
-                            buf.put((byte) 'a').put((byte) 'f').putFloat(alpha).putFloat(freq).putFloat(current).put((byte) 112).put((byte) 0xAA);
-                            outputStream.write(buf.array());
-                        }
-                    } catch (SerialPortTimeoutException e) {
-                        connectionStatus.setText("Ошибка COM-порта");
-                    } catch (IOException e) {
-                        connectionStatus.setText("Ошибка COM-порта");
-                        e.printStackTrace();
+        serialThreadOutput = new Thread(() -> {
+            while (true) {
+                try {
+                    if (outputStream != null) {
+                        // 2 start bytes, alpha_filter_float, frequency_float, current_float, mode_byte
+                        ByteBuffer buf = ByteBuffer.allocate(2 + 4 + 4 + 4 + 1 + 1);
+                        buf.order(ByteOrder.LITTLE_ENDIAN);
+                        buf.put((byte) 'a').put((byte) 'f').putFloat(alpha).putFloat(freq).putFloat(current).put(controlSystem).put(enable);
+                        outputStream.write(buf.array());
                     }
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        if (serialPort != null)
-                            serialPort.closePort();
-                        return;
-                    }
+                } catch (SerialPortTimeoutException e) {
+                    connectionStatus.setText("Ошибка COM-порта");
+                } catch (IOException e) {
+                    connectionStatus.setText("Ошибка COM-порта");
+                    e.printStackTrace();
+                }
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    if (serialPort != null)
+                        serialPort.closePort();
+                    return;
                 }
             }
         });
@@ -425,9 +425,11 @@ public class MainController implements Initializable, Notification {
         if (((ToggleButton) event.getSource()).getStyleClass().contains("stop")) {
             ((ToggleButton) event.getSource()).getStyleClass().remove("stop");
             ((ToggleButton) event.getSource()).setText("Включить САУ");
+            controlSystem = 0;
         } else {
             ((ToggleButton) event.getSource()).getStyleClass().add("stop");
             ((ToggleButton) event.getSource()).setText("Выключить САУ");
+            controlSystem = 1;
         }
     }
 
@@ -436,9 +438,11 @@ public class MainController implements Initializable, Notification {
         if (((ToggleButton) event.getSource()).getStyleClass().contains("stop")) {
             ((ToggleButton) event.getSource()).getStyleClass().remove("stop");
             ((ToggleButton) event.getSource()).setText("Старт");
+            enable = 0;
         } else {
             ((ToggleButton) event.getSource()).getStyleClass().add("stop");
             ((ToggleButton) event.getSource()).setText("Стоп");
+            enable = 1;
         }
     }
 
