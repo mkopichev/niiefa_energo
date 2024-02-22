@@ -54,7 +54,7 @@ jlink {
     jpackage {
 
         if (os.macOsX) {
-            icon = "src/main/resources/appIcon.icns"
+            icon = "src/main/resources/org/example/niiefa_energo/appIcon.icns"
         }
 
         if (os.windows) {
@@ -64,7 +64,7 @@ jlink {
                     '--win-menu',
                     '--win-shortcut'
             ]
-            icon = "D:\\Git\\niiefa_energo\\src\\main\\resources\\org\\example\\niiefa_energo\\appIcon.ico"
+            icon = "src/main/resources/org/example/niiefa_energo/appIcon.ico"
         }
     }
 }
