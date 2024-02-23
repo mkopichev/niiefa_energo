@@ -3,12 +3,12 @@ package org.example.niiefa_energo;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 
 public class MainApplication extends Application {
 
@@ -36,6 +36,9 @@ public class MainApplication extends Application {
 
     @Override
     public void stop() throws Exception {
+        Alert alert = new Alert(Alert.AlertType.WARNING, "Пожалуйста, подождите...");
+        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+        stage.setAlwaysOnTop(true);
         mainController.closeApp();
         super.stop();
     }
