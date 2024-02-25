@@ -170,7 +170,7 @@ public class MainController implements Initializable, Notification {
                             }
                             if (i >= 1000) {
 
-                                if(!pause) {
+                                if (!pause) {
                                     System.arraycopy(currentQueue, 0, currentSaved, 0, 1000);
                                     System.arraycopy(currentFilteredQueue, 0, currentFilteredSaved, 0, 1000);
                                     System.arraycopy(currentSetpointQueue, 0, currentSetpointSaved, 0, 1000);
@@ -253,7 +253,7 @@ public class MainController implements Initializable, Notification {
                 try {
                     min = Double.parseDouble(yMinValueField.getText().strip().replaceAll(",", "."));
                     lineChartArea.getYAxis().setAutoRanging(false);
-                    ((NumberAxis)lineChartArea.getYAxis()).setLowerBound(min);
+                    ((NumberAxis) lineChartArea.getYAxis()).setLowerBound(min);
                 } catch (NumberFormatException e) {
                     yMinValueField.getStyleClass().add("invalid");
                 }
@@ -267,7 +267,7 @@ public class MainController implements Initializable, Notification {
                 try {
                     max = Double.parseDouble(yMaxValueField.getText().strip().replaceAll(",", "."));
                     lineChartArea.getYAxis().setAutoRanging(false);
-                    ((NumberAxis)lineChartArea.getYAxis()).setUpperBound(max);
+                    ((NumberAxis) lineChartArea.getYAxis()).setUpperBound(max);
                 } catch (NumberFormatException e) {
                     yMaxValueField.getStyleClass().add("invalid");
                 }
@@ -355,7 +355,7 @@ public class MainController implements Initializable, Notification {
                         duration_time = 1.0f;
                     }
                     Platform.runLater(() -> {
-                        ((NumberAxis)lineChartArea.getXAxis()).setUpperBound(duration_time);
+                        ((NumberAxis) lineChartArea.getXAxis()).setUpperBound(duration_time);
                     });
                 } catch (NumberFormatException e) {
                     duration.getStyleClass().add("invalid");
@@ -381,19 +381,22 @@ public class MainController implements Initializable, Notification {
         seriesCurrent.getNode().lookup(".chart-series-line").setStyle("-fx-stroke: rgba(0, 255, 0, 1)");
         seriesCurrentSetpoint.getNode().lookup(".chart-series-line").setStyle("-fx-stroke: rgba(255, 0, 0, 1)");
         seriesCurrentFiltered.getNode().lookup(".chart-series-line").setStyle("-fx-stroke: rgba(0, 0, 255, 1)");
-        ((NumberAxis)lineChartArea.getXAxis()).setUpperBound(1);
-        ((NumberAxis)lineChartArea.getXAxis()).setLowerBound(0);
+        ((NumberAxis) lineChartArea.getXAxis()).setUpperBound(1);
+        ((NumberAxis) lineChartArea.getXAxis()).setLowerBound(0);
 
         resetYaxis.pressedProperty().addListener((observable, released, pressed) -> {
-            if(released) {
+            if (released) {
                 lineChartArea.getYAxis().setAutoRanging(true);
                 yMinValueField.setText("");
                 yMaxValueField.setText("");
+                yMinValueField.getStyleClass().removeAll("invalid");
+                yMaxValueField.getStyleClass().removeAll("invalid");
             }
         });
     }
 
     boolean pause = false;
+
     @FXML
     void onPauseButtonPress(ActionEvent event) {
         if (((ToggleButton) event.getSource()).getStyleClass().contains("stop")) {
