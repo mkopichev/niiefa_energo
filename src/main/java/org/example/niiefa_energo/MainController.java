@@ -383,6 +383,7 @@ public class MainController implements Initializable, Notification {
         seriesCurrentFiltered.getNode().lookup(".chart-series-line").setStyle("-fx-stroke: rgba(0, 0, 255, 1)");
         ((NumberAxis) lineChartArea.getXAxis()).setUpperBound(1);
         ((NumberAxis) lineChartArea.getXAxis()).setLowerBound(0);
+        ((NumberAxis) lineChartArea.getYAxis()).setForceZeroInRange(false);
 
         resetYaxis.pressedProperty().addListener((observable, released, pressed) -> {
             if (released) {
