@@ -442,7 +442,8 @@ public class MainController implements Initializable, Notification {
         if (((ToggleButton) event.getSource()).getStyleClass().contains("stop")) {
             ((ToggleButton) event.getSource()).getStyleClass().remove("stop");
             ((ToggleButton) event.getSource()).setText("Включить САУ");
-            frequencySetField.setText(frequencyField.getText());
+            freq = Float.parseFloat(frequencyField.getText());
+            frequencySetField.setText(String.valueOf(freq));
             controlSystem = 0;
         } else {
             ((ToggleButton) event.getSource()).getStyleClass().add("stop");
