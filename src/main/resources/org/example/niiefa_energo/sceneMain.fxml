@@ -76,7 +76,7 @@
                         <RowConstraints minHeight="10.0" percentHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <LineChart fx:id="lineChartArea" GridPane.columnIndex="1" createSymbols="false" legendVisible="false">
+                        <LineChart fx:id="lineChartArea" createSymbols="false" legendVisible="false" GridPane.columnIndex="1">
                            <xAxis>
                               <NumberAxis autoRanging="false" side="BOTTOM" />
                            </xAxis>
@@ -251,7 +251,7 @@
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <TextField fx:id="duration" text="1.0" alignment="CENTER" maxWidth="100.0" promptText="с" styleClass="default" stylesheets="@MyTextFieldStyle.css" GridPane.rowIndex="10" GridPane.valignment="CENTER">
+                  <TextField fx:id="duration" alignment="CENTER" maxWidth="100.0" promptText="с" styleClass="default" stylesheets="@MyTextFieldStyle.css" text="1.0" GridPane.rowIndex="10" GridPane.valignment="CENTER">
                      <font>
                         <Font size="18.0" />
                      </font>
