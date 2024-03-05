@@ -492,7 +492,19 @@ public class MainController implements Initializable, Notification {
 
     @Override
     public void closeApp() {
-        serialThreadOutput.interrupt();
-        serialThreadInput.interrupt();
+        freq = 400;
+        current = 0;
+        controlSystem = 0;
+        enable = 0;
+        Thread stopper = new Thread(() -> {
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            serialThreadOutput.interrupt();
+            serialThreadInput.interrupt();
+        });
+        stopper.start();
     }
 }
