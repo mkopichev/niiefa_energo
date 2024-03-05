@@ -99,8 +99,8 @@ public class MainController implements Initializable, Notification {
 
     private Thread plotThread;
 
-    float alpha = 0.0f;
-    float freq = 0.0f;
+    float alpha = 0.01f;
+    float freq = 400.0f;
     float current = 0.0f;
     byte controlSystem = 0;
     byte enable = 0;
@@ -307,6 +307,11 @@ public class MainController implements Initializable, Notification {
             if (outOfFocus) {
                 try {
                     alpha = Float.parseFloat(alphaFilterField.getText().strip().replaceAll(",", "."));
+                    if(alpha > 1) {
+                        alpha = 1;
+                    } else if(alpha < 0) {
+                        alpha = 0;
+                    }
                     alphaFilterField.setText(String.valueOf(alpha));
                 } catch (NumberFormatException e) {
                     alphaFilterField.getStyleClass().add("invalid");
@@ -323,6 +328,11 @@ public class MainController implements Initializable, Notification {
             if (outOfFocus) {
                 try {
                     freq = Float.parseFloat(frequencySetField.getText().strip().replaceAll(",", "."));
+                    if(freq > 400) {
+                        freq = 400;
+                    } else if(freq < 100) {
+                        freq = 100;
+                    }
                     frequencySetField.setText(String.valueOf(freq));
                 } catch (NumberFormatException e) {
                     frequencySetField.getStyleClass().add("invalid");
@@ -339,6 +349,11 @@ public class MainController implements Initializable, Notification {
             if (outOfFocus) {
                 try {
                     current = Float.parseFloat(currentSetField.getText().strip().replaceAll(",", "."));
+                    if(current > 300) {
+                        current = 300;
+                    } else if(current < 0){
+                        current = 0;
+                    }
                     currentSetField.setText(String.valueOf(current));
                 } catch (NumberFormatException e) {
                     currentSetField.getStyleClass().add("invalid");
@@ -356,12 +371,11 @@ public class MainController implements Initializable, Notification {
                 try {
                     duration_time = Float.parseFloat(duration.getText().strip().replaceAll(",", "."));
                     if (duration_time > 1.0f) {
-                        duration.setText(String.valueOf(1.0f));
                         duration_time = 1.0f;
+                    } else if(duration_time <= 0) {
+                        duration_time = 0.1f;
                     }
-                    else {
-                        duration.setText(String.valueOf(duration_time));
-                    }
+                    duration.setText(String.valueOf(duration_time));
                     Platform.runLater(() -> {
                         ((NumberAxis) lineChartArea.getXAxis()).setUpperBound(duration_time);
                     });
@@ -375,6 +389,10 @@ public class MainController implements Initializable, Notification {
                 background.requestFocus();
             }
         });
+
+        alphaFilterField.setText(String.valueOf(alpha));
+        currentSetField.setText(String.valueOf(current));
+        frequencySetField.setText(String.valueOf(freq));
 
         lineChartArea.setAnimated(false);
         seriesCurrent = new XYChart.Series<>();
