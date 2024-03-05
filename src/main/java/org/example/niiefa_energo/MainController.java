@@ -254,6 +254,7 @@ public class MainController implements Initializable, Notification {
                     min = Double.parseDouble(yMinValueField.getText().strip().replaceAll(",", "."));
                     lineChartArea.getYAxis().setAutoRanging(false);
                     ((NumberAxis) lineChartArea.getYAxis()).setLowerBound(min);
+                    yMinValueField.setText(String.valueOf(min));
                 } catch (NumberFormatException e) {
                     yMinValueField.getStyleClass().add("invalid");
                 }
@@ -268,6 +269,7 @@ public class MainController implements Initializable, Notification {
                     max = Double.parseDouble(yMaxValueField.getText().strip().replaceAll(",", "."));
                     lineChartArea.getYAxis().setAutoRanging(false);
                     ((NumberAxis) lineChartArea.getYAxis()).setUpperBound(max);
+                    yMaxValueField.setText(String.valueOf(max));
                 } catch (NumberFormatException e) {
                     yMaxValueField.getStyleClass().add("invalid");
                 }
@@ -305,6 +307,7 @@ public class MainController implements Initializable, Notification {
             if (outOfFocus) {
                 try {
                     alpha = Float.parseFloat(alphaFilterField.getText().strip().replaceAll(",", "."));
+                    alphaFilterField.setText(String.valueOf(alpha));
                 } catch (NumberFormatException e) {
                     alphaFilterField.getStyleClass().add("invalid");
                 }
@@ -320,6 +323,7 @@ public class MainController implements Initializable, Notification {
             if (outOfFocus) {
                 try {
                     freq = Float.parseFloat(frequencySetField.getText().strip().replaceAll(",", "."));
+                    frequencySetField.setText(String.valueOf(freq));
                 } catch (NumberFormatException e) {
                     frequencySetField.getStyleClass().add("invalid");
                 }
@@ -335,6 +339,7 @@ public class MainController implements Initializable, Notification {
             if (outOfFocus) {
                 try {
                     current = Float.parseFloat(currentSetField.getText().strip().replaceAll(",", "."));
+                    currentSetField.setText(String.valueOf(current));
                 } catch (NumberFormatException e) {
                     currentSetField.getStyleClass().add("invalid");
                 }
@@ -353,6 +358,9 @@ public class MainController implements Initializable, Notification {
                     if (duration_time > 1.0f) {
                         duration.setText(String.valueOf(1.0f));
                         duration_time = 1.0f;
+                    }
+                    else {
+                        duration.setText(String.valueOf(duration_time));
                     }
                     Platform.runLater(() -> {
                         ((NumberAxis) lineChartArea.getXAxis()).setUpperBound(duration_time);
