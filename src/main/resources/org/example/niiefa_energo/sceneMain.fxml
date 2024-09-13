@@ -206,8 +206,8 @@
                </columnConstraints>
                <rowConstraints>
                   <RowConstraints minHeight="10.0" percentHeight="4.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
-                  <RowConstraints minHeight="10.0" percentHeight="11.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
-                  <RowConstraints minHeight="10.0" percentHeight="11.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
+                  <RowConstraints minHeight="10.0" percentHeight="9.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
+                  <RowConstraints minHeight="10.0" percentHeight="9.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
                   <RowConstraints minHeight="10.0" percentHeight="4.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
                   <RowConstraints minHeight="10.0" percentHeight="6.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
                   <RowConstraints minHeight="10.0" percentHeight="4.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
@@ -216,9 +216,11 @@
                   <RowConstraints minHeight="10.0" percentHeight="6.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
                   <RowConstraints minHeight="10.0" percentHeight="4.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
                   <RowConstraints minHeight="10.0" percentHeight="6.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
-                  <RowConstraints minHeight="10.0" percentHeight="11.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
-                  <RowConstraints minHeight="10.0" percentHeight="11.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
-                  <RowConstraints minHeight="10.0" percentHeight="11.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
+                  <RowConstraints minHeight="10.0" percentHeight="4.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
+                  <RowConstraints minHeight="10.0" percentHeight="6.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
+                  <RowConstraints minHeight="10.0" percentHeight="9.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
+                  <RowConstraints minHeight="10.0" percentHeight="9.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
+                  <RowConstraints minHeight="10.0" percentHeight="9.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
                </rowConstraints>
                <children>
                   <Text fx:id="connectionStatus" strokeType="OUTSIDE" strokeWidth="0.0" text="Не подключено">
@@ -256,17 +258,27 @@
                         <Font size="18.0" />
                      </font>
                   </TextField>
-                  <ToggleButton fx:id="acsEnableButton" contentDisplay="CENTER" focusTraversable="false" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onAcsEnableButtonPress" styleClass="start" stylesheets="@MyButtonStyle.css" text="Включить САУ" textAlignment="CENTER" GridPane.rowIndex="12" GridPane.valignment="BOTTOM">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Напряжение" GridPane.rowIndex="11">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <TextField fx:id="voltage" alignment="CENTER" maxWidth="100.0" promptText="В" styleClass="default" stylesheets="@MyTextFieldStyle.css" GridPane.rowIndex="12">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </TextField>
+                  <ToggleButton fx:id="acsEnableButton" contentDisplay="CENTER" focusTraversable="false" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onAcsEnableButtonPress" styleClass="start" stylesheets="@MyButtonStyle.css" text="Включить САУ" textAlignment="CENTER" GridPane.rowIndex="14" GridPane.valignment="BOTTOM">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </ToggleButton>
-                  <ToggleButton fx:id="startButton" contentDisplay="CENTER" focusTraversable="false" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onStartButtonPress" styleClass="start" stylesheets="@MyButtonStyle.css" text="Старт" textAlignment="CENTER" GridPane.rowIndex="13" GridPane.valignment="BOTTOM">
+                  <ToggleButton fx:id="startButton" contentDisplay="CENTER" focusTraversable="false" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onStartButtonPress" styleClass="start" stylesheets="@MyButtonStyle.css" text="Старт" textAlignment="CENTER" GridPane.rowIndex="15" GridPane.valignment="BOTTOM">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </ToggleButton>
-                  <ToggleButton fx:id="pauseButton" contentDisplay="CENTER" focusTraversable="false" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onPauseButtonPress" styleClass="start" stylesheets="@MyButtonStyle.css" text="Пауза" textAlignment="CENTER" GridPane.rowIndex="11" GridPane.valignment="BOTTOM">
+                  <ToggleButton fx:id="pauseButton" contentDisplay="CENTER" focusTraversable="false" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onPauseButtonPress" styleClass="start" stylesheets="@MyButtonStyle.css" text="Пауза" textAlignment="CENTER" GridPane.rowIndex="13" GridPane.valignment="BOTTOM">
                      <font>
                         <Font size="18.0" />
                      </font>

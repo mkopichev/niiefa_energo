@@ -62,6 +62,9 @@ public class MainController implements Initializable, Notification {
     private TextField frequencySetField;
 
     @FXML
+    private TextField voltageField;
+
+    @FXML
     private LineChart<Number, Number> lineChartArea;
 
     @FXML
