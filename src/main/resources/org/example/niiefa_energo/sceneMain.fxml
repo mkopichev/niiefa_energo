@@ -263,7 +263,7 @@
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <TextField fx:id="voltage" alignment="CENTER" maxWidth="100.0" promptText="В" styleClass="default" stylesheets="@MyTextFieldStyle.css" GridPane.rowIndex="12">
+                  <TextField fx:id="voltageField" alignment="CENTER" maxWidth="100.0" promptText="В" styleClass="default" stylesheets="@MyTextFieldStyle.css" GridPane.rowIndex="12">
                      <font>
                         <Font size="18.0" />
                      </font>

@@ -105,6 +105,8 @@ public class MainController implements Initializable, Notification {
     float alpha = 0.01f;
     float freq = 400.0f;
     float current = 0.0f;
+    @FXML
+    float voltage = 0.0f;
     byte controlSystem = 0;
     byte enable = 0;
 
@@ -113,15 +115,18 @@ public class MainController implements Initializable, Notification {
     Float[] currentQueue = new Float[1000];
     Float[] currentFilteredQueue = new Float[1000];
     Float[] currentSetpointQueue = new Float[1000];
+    Float[] voltageQueue = new Float[1000];
     Float frequencyQueue = 0.0f;
 
     Float[] currentSaved = new Float[1000];
     Float[] currentFilteredSaved = new Float[1000];
     Float[] currentSetpointSaved = new Float[1000];
+    Float[] voltageSaved = new Float[1000];
 
     XYChart.Series<Number, Number> seriesCurrent;
     XYChart.Series<Number, Number> seriesCurrentFiltered;
     XYChart.Series<Number, Number> seriesCurrentSetpoint;
+    XYChart.Series<Number, Number> seriesVoltage;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -131,9 +136,9 @@ public class MainController implements Initializable, Notification {
                 try {
                     if (outputStream != null) {
                         // 2 start bytes, alpha_filter_float, frequency_float, current_float, mode_byte
-                        ByteBuffer buf = ByteBuffer.allocate(2 + 4 + 4 + 4 + 1 + 1);
+                        ByteBuffer buf = ByteBuffer.allocate(2 + 4 + 4 + 4 + 4 + 1 + 1);
                         buf.order(ByteOrder.LITTLE_ENDIAN);
-                        buf.put((byte) 'a').put((byte) 'f').putFloat(alpha).putFloat(freq).putFloat(current).put(controlSystem).put(enable);
+                        buf.put((byte) 'a').put((byte) 'f').putFloat(alpha).putFloat(freq).putFloat(current).putFloat(voltage).put(controlSystem).put(enable);
                         outputStream.write(buf.array());
                     }
                 } catch (SerialPortTimeoutException e) {
@@ -161,13 +166,14 @@ public class MainController implements Initializable, Notification {
                     try {
                         if (inputStream != null) {
                             byte[] buf = new byte[18];
-                            if (readInputStreamWithTimeout(inputStream, buf, 10, 18) == 18) {
+                            if (readInputStreamWithTimeout(inputStream, buf, 10, 22) == 22) {
                                 ByteBuffer bb = ByteBuffer.wrap(buf);
                                 bb.order(ByteOrder.LITTLE_ENDIAN);
                                 currentQueue[i] = bb.getFloat(2);
                                 currentFilteredQueue[i] = bb.getFloat(6);
                                 currentSetpointQueue[i] = bb.getFloat(10);
                                 frequencyQueue = bb.getFloat(14);
+                                voltageQueue[i] = bb.getFloat(18);
 
                                 i++;
                             }
@@ -177,6 +183,7 @@ public class MainController implements Initializable, Notification {
                                     System.arraycopy(currentQueue, 0, currentSaved, 0, 1000);
                                     System.arraycopy(currentFilteredQueue, 0, currentFilteredSaved, 0, 1000);
                                     System.arraycopy(currentSetpointQueue, 0, currentSetpointSaved, 0, 1000);
+                                    System.arraycopy(voltageQueue, 0, voltageSaved, 0, 1000);
 
                                     Platform.runLater(() -> {
                                         frequencyField.setText(frequencyQueue.toString());
@@ -199,6 +206,10 @@ public class MainController implements Initializable, Notification {
                                         seriesCurrentSetpoint.getData().clear();
                                         for (int i1 = 0; i1 < 1000; i1++) {
                                             seriesCurrentSetpoint.getData().add(new XYChart.Data<>(i1 * 0.001, currentSetpointSaved[i1]));
+                                        }
+                                        seriesVoltage.getData().clear();
+                                        for (int i1 = 0; i1 < 1000; i1++) {
+                                            seriesVoltage.getData().add(new XYChart.Data<>(i1 * 0.001, voltageSaved[i1]));
                                         }
                                     });
                                 }
@@ -326,6 +337,29 @@ public class MainController implements Initializable, Notification {
                 background.requestFocus();
             }
         });
+
+        voltageField.focusedProperty().addListener((observable, outOfFocus, inFocus) -> {
+            frequencySetField.getStyleClass().removeAll("invalid");
+            if (outOfFocus) {
+                try {
+                    voltage = Float.parseFloat(voltageField.getText().strip().replaceAll(",", "."));
+                    if(voltage > 400) {
+                        voltage = 400;
+                    } else if(voltage < 1) {
+                        voltage = 1;
+                    }
+                    voltageField.setText(String.valueOf(voltage));
+                } catch (NumberFormatException e) {
+                    voltageField.getStyleClass().add("invalid");
+                }
+            }
+        });
+        voltageField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                background.requestFocus();
+            }
+        });
+
         frequencySetField.focusedProperty().addListener((observable, outOfFocus, inFocus) -> {
             frequencySetField.getStyleClass().removeAll("invalid");
             if (outOfFocus) {
@@ -404,12 +438,16 @@ public class MainController implements Initializable, Notification {
         seriesCurrentSetpoint.setName("Уставка по току");
         seriesCurrentFiltered = new XYChart.Series<>();
         seriesCurrentFiltered.setName("Ток с альфа-фльтром");
+        seriesVoltage = new XYChart.Series<>();
+        seriesVoltage.setName("Напряжение");
         lineChartArea.getData().add(seriesCurrent);
         lineChartArea.getData().add(seriesCurrentFiltered);
         lineChartArea.getData().add(seriesCurrentSetpoint);
+        lineChartArea.getData().add(seriesVoltage);
         seriesCurrent.getNode().lookup(".chart-series-line").setStyle("-fx-stroke: rgba(0, 255, 0, 1)");
         seriesCurrentSetpoint.getNode().lookup(".chart-series-line").setStyle("-fx-stroke: rgba(255, 0, 0, 1)");
         seriesCurrentFiltered.getNode().lookup(".chart-series-line").setStyle("-fx-stroke: rgba(0, 0, 255, 1)");
+        seriesVoltage.getNode().lookup(".chart-series-line").setStyle("-fx-stroke: rgba(255, 255, 0, 1)");
         ((NumberAxis) lineChartArea.getXAxis()).setUpperBound(1);
         ((NumberAxis) lineChartArea.getXAxis()).setLowerBound(0);
         ((NumberAxis) lineChartArea.getYAxis()).setForceZeroInRange(false);
