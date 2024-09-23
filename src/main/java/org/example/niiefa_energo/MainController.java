@@ -165,7 +165,7 @@ public class MainController implements Initializable, Notification {
                 while (true) {
                     try {
                         if (inputStream != null) {
-                            byte[] buf = new byte[18];
+                            byte[] buf = new byte[22];
                             if (readInputStreamWithTimeout(inputStream, buf, 10, 22) == 22) {
                                 ByteBuffer bb = ByteBuffer.wrap(buf);
                                 bb.order(ByteOrder.LITTLE_ENDIAN);
