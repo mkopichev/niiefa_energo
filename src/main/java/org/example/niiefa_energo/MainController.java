@@ -484,7 +484,7 @@ public class MainController implements Initializable, Notification {
             try {
                 freq = Float.parseFloat(frequencyField.getText());
             } catch (NumberFormatException e) {
-                return;
+                freq = 400.0f;
             }
             ((ToggleButton) event.getSource()).getStyleClass().remove("stop");
             ((ToggleButton) event.getSource()).setText("Включить САУ");
