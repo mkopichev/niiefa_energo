@@ -77,9 +77,6 @@ public class MainController implements Initializable, Notification {
     private CheckBox plot3checkBox;
 
     @FXML
-    private CheckBox plot4checkBox;
-
-    @FXML
     private ToggleButton startButton;
 
     @FXML
@@ -108,6 +105,8 @@ public class MainController implements Initializable, Notification {
     float alpha = 0.01f;
     float freq = 400.0f;
     float current = 0.0f;
+    @FXML
+    float voltage = 0.0f;
     byte controlSystem = 0;
     byte enable = 0;
 
@@ -116,15 +115,18 @@ public class MainController implements Initializable, Notification {
     Float[] currentQueue = new Float[1000];
     Float[] currentFilteredQueue = new Float[1000];
     Float[] currentSetpointQueue = new Float[1000];
+    Float[] voltageQueue = new Float[1000];
     Float frequencyQueue = 0.0f;
 
     Float[] currentSaved = new Float[1000];
     Float[] currentFilteredSaved = new Float[1000];
     Float[] currentSetpointSaved = new Float[1000];
+    Float[] voltageSaved = new Float[1000];
 
     XYChart.Series<Number, Number> seriesCurrent;
     XYChart.Series<Number, Number> seriesCurrentFiltered;
     XYChart.Series<Number, Number> seriesCurrentSetpoint;
+    XYChart.Series<Number, Number> seriesVoltage;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -134,9 +136,9 @@ public class MainController implements Initializable, Notification {
                 try {
                     if (outputStream != null) {
                         // 2 start bytes, alpha_filter_float, frequency_float, current_float, mode_byte
-                        ByteBuffer buf = ByteBuffer.allocate(2 + 4 + 4 + 4 + 1 + 1);
+                        ByteBuffer buf = ByteBuffer.allocate(2 + 4 + 4 + 4 + 4 + 1 + 1);
                         buf.order(ByteOrder.LITTLE_ENDIAN);
-                        buf.put((byte) 'a').put((byte) 'f').putFloat(alpha).putFloat(freq).putFloat(current).put(controlSystem).put(enable);
+                        buf.put((byte) 'a').put((byte) 'f').putFloat(alpha).putFloat(freq).putFloat(current).putFloat(voltage).put(controlSystem).put(enable);
                         outputStream.write(buf.array());
                     }
                 } catch (SerialPortTimeoutException e) {
@@ -148,84 +150,97 @@ public class MainController implements Initializable, Notification {
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
-                    if (serialPort != null) serialPort.closePort();
+                    if (serialPort != null)
+                        serialPort.closePort();
                     return;
                 }
             }
         });
         serialThreadOutput.start();
 
-        serialThreadInput = new Thread(() -> {
-            int i = 0;
-            while (true) {
-                try {
-                    if (inputStream != null) {
-                        byte[] buf = new byte[18];
-                        if (readInputStreamWithTimeout(inputStream, buf, 10, 18) == 18) {
-                            ByteBuffer bb = ByteBuffer.wrap(buf);
-                            bb.order(ByteOrder.LITTLE_ENDIAN);
-                            currentQueue[i] = bb.getFloat(2);
-                            currentFilteredQueue[i] = bb.getFloat(6);
-                            currentSetpointQueue[i] = bb.getFloat(10);
-                            frequencyQueue = bb.getFloat(14);
+        serialThreadInput = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                int i = 0;
+                while (true) {
+                    try {
+                        if (inputStream != null) {
+                            byte[] buf = new byte[22];
+                            if (readInputStreamWithTimeout(inputStream, buf, 10, 22) == 22) {
+                                ByteBuffer bb = ByteBuffer.wrap(buf);
+                                bb.order(ByteOrder.LITTLE_ENDIAN);
+                                currentQueue[i] = bb.getFloat(2);
+                                currentFilteredQueue[i] = bb.getFloat(6);
+                                currentSetpointQueue[i] = bb.getFloat(10);
+                                frequencyQueue = bb.getFloat(14);
+                                voltageQueue[i] = bb.getFloat(18);
 
-                            i++;
-                        }
-                        if (i >= 1000) {
-
-                            if (!pause) {
-                                System.arraycopy(currentQueue, 0, currentSaved, 0, 1000);
-                                System.arraycopy(currentFilteredQueue, 0, currentFilteredSaved, 0, 1000);
-                                System.arraycopy(currentSetpointQueue, 0, currentSetpointSaved, 0, 1000);
-
-                                Platform.runLater(() -> {
-                                    frequencyField.setText(frequencyQueue.toString());
-                                    List<Float> currentTmp = Arrays.asList(currentSaved);
-                                    float p2p = Collections.max(currentTmp) - Collections.min(currentTmp);
-                                    currentP2P.setText(Float.toString(p2p));
-
-                                    currentTmp = Arrays.asList(currentFilteredSaved);
-                                    p2p = Collections.max(currentTmp) - Collections.min(currentTmp);
-                                    currentFilteredP2P.setText(Float.toString(p2p));
-
-                                    seriesCurrent.getData().clear();
-                                    for (int i1 = 0; i1 < 1000; i1++) {
-                                        seriesCurrent.getData().add(new XYChart.Data<>(i1 * 0.001, currentSaved[i1]));
-                                    }
-                                    seriesCurrentFiltered.getData().clear();
-                                    for (int i1 = 0; i1 < 1000; i1++) {
-                                        seriesCurrentFiltered.getData().add(new XYChart.Data<>(i1 * 0.001, currentFilteredSaved[i1]));
-                                    }
-                                    seriesCurrentSetpoint.getData().clear();
-                                    for (int i1 = 0; i1 < 1000; i1++) {
-                                        seriesCurrentSetpoint.getData().add(new XYChart.Data<>(i1 * 0.001, currentSetpointSaved[i1]));
-                                    }
-                                });
+                                i++;
                             }
-                            i = 0;
-                        }
-                    }
-                } catch (SerialPortTimeoutException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    inputStream = null;
-                    i = 0;
-                    connectionStatus.setText("Ошибка COM-порта");
-                }
+                            if (i >= 1000) {
 
-                if (Thread.interrupted()) {
-                    if (serialPort != null) serialPort.closePort();
-                    return;
+                                if (!pause) {
+                                    System.arraycopy(currentQueue, 0, currentSaved, 0, 1000);
+                                    System.arraycopy(currentFilteredQueue, 0, currentFilteredSaved, 0, 1000);
+                                    System.arraycopy(currentSetpointQueue, 0, currentSetpointSaved, 0, 1000);
+                                    System.arraycopy(voltageQueue, 0, voltageSaved, 0, 1000);
+
+                                    Platform.runLater(() -> {
+                                        frequencyField.setText(frequencyQueue.toString());
+                                        List<Float> currentTmp = Arrays.asList(currentSaved);
+                                        float p2p = Collections.max(currentTmp) - Collections.min(currentTmp);
+                                        currentP2P.setText(Float.toString(p2p));
+
+                                        currentTmp = Arrays.asList(currentFilteredSaved);
+                                        p2p = Collections.max(currentTmp) - Collections.min(currentTmp);
+                                        currentFilteredP2P.setText(Float.toString(p2p));
+
+                                        seriesCurrent.getData().clear();
+                                        for (int i1 = 0; i1 < 1000; i1++) {
+                                            seriesCurrent.getData().add(new XYChart.Data<>(i1 * 0.001, currentSaved[i1]));
+                                        }
+                                        seriesCurrentFiltered.getData().clear();
+                                        for (int i1 = 0; i1 < 1000; i1++) {
+                                            seriesCurrentFiltered.getData().add(new XYChart.Data<>(i1 * 0.001, currentFilteredSaved[i1]));
+                                        }
+                                        seriesCurrentSetpoint.getData().clear();
+                                        for (int i1 = 0; i1 < 1000; i1++) {
+                                            seriesCurrentSetpoint.getData().add(new XYChart.Data<>(i1 * 0.001, currentSetpointSaved[i1]));
+                                        }
+                                        seriesVoltage.getData().clear();
+                                        for (int i1 = 0; i1 < 1000; i1++) {
+                                            seriesVoltage.getData().add(new XYChart.Data<>(i1 * 0.001, voltageSaved[i1]));
+                                        }
+                                    });
+                                }
+                                i = 0;
+                            }
+                        }
+                    } catch (SerialPortTimeoutException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        inputStream = null;
+                        i = 0;
+                        connectionStatus.setText("Ошибка COM-порта");
+                    }
+
+                    if (Thread.interrupted()) {
+                        if (serialPort != null)
+                            serialPort.closePort();
+                        return;
+                    }
                 }
             }
         });
         serialThreadInput.start();
 
-        comPortChoice.showingProperty().addListener((observable, wasShowing, isShowing) -> {
+        comPortChoice.showingProperty().addListener((observable, wasShowing, isShowing) ->
+        {
             if (isShowing) {
                 comPortChoice.getItems().clear();
                 SerialPort[] ports = SerialPort.getCommPorts();
-                for (SerialPort port : ports) {
+                for (SerialPort port : ports
+                ) {
                     comPortChoice.getItems().add(port.getSystemPortName());
                 }
             }
@@ -287,8 +302,10 @@ public class MainController implements Initializable, Notification {
         });
         comPortConnectButton.pressedProperty().addListener((observable, released, pressed) -> {
             if (released) {
-                if (serialPortName == null) return;
-                if (serialPort != null) serialPort.closePort();
+                if (serialPortName == null)
+                    return;
+                if (serialPort != null)
+                    serialPort.closePort();
                 serialPort = SerialPort.getCommPort(serialPortName);
                 serialPort.setComPortParameters(115200, 8, 1, SerialPort.NO_PARITY);
                 serialPort.openPort();
@@ -320,6 +337,29 @@ public class MainController implements Initializable, Notification {
                 background.requestFocus();
             }
         });
+
+        voltageSetField.focusedProperty().addListener((observable, outOfFocus, inFocus) -> {
+            frequencySetField.getStyleClass().removeAll("invalid");
+            if (outOfFocus) {
+                try {
+                    voltage = Float.parseFloat(voltageSetField.getText().strip().replaceAll(",", "."));
+                    if (voltage > 400) {
+                        voltage = 400;
+                    } else if (voltage < 1) {
+                        voltage = 1;
+                    }
+                    voltageSetField.setText(String.valueOf(voltage));
+                } catch (NumberFormatException e) {
+                    voltageSetField.getStyleClass().add("invalid");
+                }
+            }
+        });
+        voltageSetField.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                background.requestFocus();
+            }
+        });
+
         frequencySetField.focusedProperty().addListener((observable, outOfFocus, inFocus) -> {
             frequencySetField.getStyleClass().removeAll("invalid");
             if (outOfFocus) {
@@ -373,7 +413,9 @@ public class MainController implements Initializable, Notification {
                         duration_time = 0.1f;
                     }
                     durationSetField.setText(String.valueOf(duration_time));
-                    Platform.runLater(() -> ((NumberAxis) lineChartArea.getXAxis()).setUpperBound(duration_time));
+                    Platform.runLater(() -> {
+                        ((NumberAxis) lineChartArea.getXAxis()).setUpperBound(duration_time);
+                    });
                 } catch (NumberFormatException e) {
                     durationSetField.getStyleClass().add("invalid");
                 }
@@ -396,12 +438,16 @@ public class MainController implements Initializable, Notification {
         seriesCurrentSetpoint.setName("Уставка по току");
         seriesCurrentFiltered = new XYChart.Series<>();
         seriesCurrentFiltered.setName("Ток с альфа-фльтром");
+        seriesVoltage = new XYChart.Series<>();
+        seriesVoltage.setName("Напряжение");
         lineChartArea.getData().add(seriesCurrent);
         lineChartArea.getData().add(seriesCurrentFiltered);
         lineChartArea.getData().add(seriesCurrentSetpoint);
+        lineChartArea.getData().add(seriesVoltage);
         seriesCurrent.getNode().lookup(".chart-series-line").setStyle("-fx-stroke: rgba(0, 255, 0, 1)");
         seriesCurrentSetpoint.getNode().lookup(".chart-series-line").setStyle("-fx-stroke: rgba(255, 0, 0, 1)");
         seriesCurrentFiltered.getNode().lookup(".chart-series-line").setStyle("-fx-stroke: rgba(0, 0, 255, 1)");
+        seriesVoltage.getNode().lookup(".chart-series-line").setStyle("-fx-stroke: rgba(255, 255, 0, 1)");
         ((NumberAxis) lineChartArea.getXAxis()).setUpperBound(1);
         ((NumberAxis) lineChartArea.getXAxis()).setLowerBound(0);
         ((NumberAxis) lineChartArea.getYAxis()).setForceZeroInRange(false);
@@ -435,9 +481,13 @@ public class MainController implements Initializable, Notification {
     @FXML
     void onAcsEnableButtonPress(ActionEvent event) {
         if (((ToggleButton) event.getSource()).getStyleClass().contains("stop")) {
+            try {
+                freq = Float.parseFloat(frequencyField.getText());
+            } catch (NumberFormatException e) {
+                freq = 400.0f;
+            }
             ((ToggleButton) event.getSource()).getStyleClass().remove("stop");
             ((ToggleButton) event.getSource()).setText("Включить САУ");
-            freq = Float.parseFloat(frequencyField.getText());
             frequencySetField.setText(String.valueOf(freq));
             controlSystem = 0;
         } else {
@@ -460,12 +510,13 @@ public class MainController implements Initializable, Notification {
         }
     }
 
-    public static int readInputStreamWithTimeout(InputStream is, byte[] b, int timeoutMillis, int length) throws IOException {
+    public static int readInputStreamWithTimeout(InputStream is, byte[] b, int timeoutMillis, int length)
+            throws IOException {
         long maxTimeMillis = System.currentTimeMillis() + timeoutMillis;
         while (b[0] != (byte) 0xAA && b[1] != (byte) 0xBB) {
-            if (readOneByteTimeout(is, b, 0, maxTimeMillis)) return -1;
+            if (!readOneByteTimeout(is, b, 0, maxTimeMillis)) return -1;
             if (b[0] == (byte) 0xAA) {
-                if (readOneByteTimeout(is, b, 1, maxTimeMillis)) return -1;
+                if (!readOneByteTimeout(is, b, 1, maxTimeMillis)) return -1;
             }
         }
         int bufferOffset = 2;
@@ -483,10 +534,10 @@ public class MainController implements Initializable, Notification {
         while (System.currentTimeMillis() < endTime) {
             if (is.available() > 0) {
                 is.read(buffer, position, 1);
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     @FXML
@@ -500,9 +551,6 @@ public class MainController implements Initializable, Notification {
         }
         if (checkBox == plot3checkBox) {
             seriesCurrentFiltered.getNode().setVisible(plot3checkBox.isSelected());
-        }
-        if (checkBox == plot4checkBox) {
-            seriesCurrentFiltered.getNode().setVisible(plot4checkBox.isSelected());
         }
     }
 
