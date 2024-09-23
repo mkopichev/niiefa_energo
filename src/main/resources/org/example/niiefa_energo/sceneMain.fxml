@@ -169,7 +169,21 @@
                               </Rectangle>
                            </children>
                         </HBox>
-                        <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                        <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2">
+                           <children>
+                              <CheckBox fx:id="plot4checkBox" focusTraversable="false" mnemonicParsing="false" onAction="#checkBoxEvent" selected="true" text="Напряжение">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </CheckBox>
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ee9e39" height="25.0" stroke="BLACK" strokeType="INSIDE" width="25.0">
+                                 <HBox.margin>
+                                    <Insets left="20.0" />
+                                 </HBox.margin>
+                              </Rectangle>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                            <children>
                               <CheckBox fx:id="plot2checkBox" focusTraversable="false" mnemonicParsing="false" onAction="#checkBoxEvent" selected="true" text="Без α-фильтра">
                                  <font>
@@ -183,7 +197,7 @@
                               </Rectangle>
                            </children>
                         </HBox>
-                        <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                        <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                            <children>
                               <CheckBox fx:id="plot3checkBox" focusTraversable="false" mnemonicParsing="false" onAction="#checkBoxEvent" selected="true" text="С α-фильтром">
                                  <font>
@@ -191,20 +205,6 @@
                                  </font>
                               </CheckBox>
                               <Rectangle arcHeight="5.0" arcWidth="5.0" fill="BLUE" height="25.0" stroke="BLACK" strokeType="INSIDE" width="25.0">
-                                 <HBox.margin>
-                                    <Insets left="20.0" />
-                                 </HBox.margin>
-                              </Rectangle>
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="4">
-                           <children>
-                              <CheckBox fx:id="plot4checkBox" focusTraversable="false" mnemonicParsing="false" onAction="#checkBoxEvent" selected="true" text="Напряжение">
-                                 <font>
-                                    <Font size="18.0" />
-                                 </font>
-                              </CheckBox>
-                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ee9e39" height="25.0" stroke="BLACK" strokeType="INSIDE" width="25.0">
                                  <HBox.margin>
                                     <Insets left="20.0" />
                                  </HBox.margin>

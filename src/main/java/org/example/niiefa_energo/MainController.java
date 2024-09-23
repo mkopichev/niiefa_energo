@@ -148,8 +148,7 @@ public class MainController implements Initializable, Notification {
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
-                    if (serialPort != null)
-                        serialPort.closePort();
+                    if (serialPort != null) serialPort.closePort();
                     return;
                 }
             }
@@ -215,21 +214,18 @@ public class MainController implements Initializable, Notification {
                 }
 
                 if (Thread.interrupted()) {
-                    if (serialPort != null)
-                        serialPort.closePort();
+                    if (serialPort != null) serialPort.closePort();
                     return;
                 }
             }
         });
         serialThreadInput.start();
 
-        comPortChoice.showingProperty().addListener((observable, wasShowing, isShowing) ->
-        {
+        comPortChoice.showingProperty().addListener((observable, wasShowing, isShowing) -> {
             if (isShowing) {
                 comPortChoice.getItems().clear();
                 SerialPort[] ports = SerialPort.getCommPorts();
-                for (SerialPort port : ports
-                ) {
+                for (SerialPort port : ports) {
                     comPortChoice.getItems().add(port.getSystemPortName());
                 }
             }
@@ -291,10 +287,8 @@ public class MainController implements Initializable, Notification {
         });
         comPortConnectButton.pressedProperty().addListener((observable, released, pressed) -> {
             if (released) {
-                if (serialPortName == null)
-                    return;
-                if (serialPort != null)
-                    serialPort.closePort();
+                if (serialPortName == null) return;
+                if (serialPort != null) serialPort.closePort();
                 serialPort = SerialPort.getCommPort(serialPortName);
                 serialPort.setComPortParameters(115200, 8, 1, SerialPort.NO_PARITY);
                 serialPort.openPort();
@@ -310,9 +304,9 @@ public class MainController implements Initializable, Notification {
             if (outOfFocus) {
                 try {
                     alpha = Float.parseFloat(alphaFilterSetField.getText().strip().replaceAll(",", "."));
-                    if(alpha > 1) {
+                    if (alpha > 1) {
                         alpha = 1;
-                    } else if(alpha < 0) {
+                    } else if (alpha < 0) {
                         alpha = 0;
                     }
                     alphaFilterSetField.setText(String.valueOf(alpha));
@@ -331,9 +325,9 @@ public class MainController implements Initializable, Notification {
             if (outOfFocus) {
                 try {
                     freq = Float.parseFloat(frequencySetField.getText().strip().replaceAll(",", "."));
-                    if(freq > 400) {
+                    if (freq > 400) {
                         freq = 400;
-                    } else if(freq < 100) {
+                    } else if (freq < 100) {
                         freq = 100;
                     }
                     frequencySetField.setText(String.valueOf(freq));
@@ -352,9 +346,9 @@ public class MainController implements Initializable, Notification {
             if (outOfFocus) {
                 try {
                     current = Float.parseFloat(currentSetField.getText().strip().replaceAll(",", "."));
-                    if(current > 300) {
+                    if (current > 300) {
                         current = 300;
-                    } else if(current < 0){
+                    } else if (current < 0) {
                         current = 0;
                     }
                     currentSetField.setText(String.valueOf(current));
@@ -375,7 +369,7 @@ public class MainController implements Initializable, Notification {
                     duration_time = Float.parseFloat(durationSetField.getText().strip().replaceAll(",", "."));
                     if (duration_time > 1.0f) {
                         duration_time = 1.0f;
-                    } else if(duration_time <= 0) {
+                    } else if (duration_time <= 0) {
                         duration_time = 0.1f;
                     }
                     durationSetField.setText(String.valueOf(duration_time));
@@ -466,8 +460,7 @@ public class MainController implements Initializable, Notification {
         }
     }
 
-    public static int readInputStreamWithTimeout(InputStream is, byte[] b, int timeoutMillis, int length)
-            throws IOException {
+    public static int readInputStreamWithTimeout(InputStream is, byte[] b, int timeoutMillis, int length) throws IOException {
         long maxTimeMillis = System.currentTimeMillis() + timeoutMillis;
         while (b[0] != (byte) 0xAA && b[1] != (byte) 0xBB) {
             if (readOneByteTimeout(is, b, 0, maxTimeMillis)) return -1;
