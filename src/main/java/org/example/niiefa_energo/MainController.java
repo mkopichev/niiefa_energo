@@ -481,9 +481,13 @@ public class MainController implements Initializable, Notification {
     @FXML
     void onAcsEnableButtonPress(ActionEvent event) {
         if (((ToggleButton) event.getSource()).getStyleClass().contains("stop")) {
+            try {
+                freq = Float.parseFloat(frequencyField.getText());
+            } catch (NumberFormatException e) {
+                return;
+            }
             ((ToggleButton) event.getSource()).getStyleClass().remove("stop");
             ((ToggleButton) event.getSource()).setText("Включить САУ");
-            freq = Float.parseFloat(frequencyField.getText());
             frequencySetField.setText(String.valueOf(freq));
             controlSystem = 0;
         } else {
