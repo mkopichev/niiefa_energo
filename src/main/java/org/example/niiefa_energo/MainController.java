@@ -41,7 +41,7 @@ public class MainController implements Initializable, Notification {
     private ToggleButton acsEnableButton;
 
     @FXML
-    private TextField alphaFilterField;
+    private TextField alphaFilterSetField;
 
     @FXML
     private ComboBox<String> comPortChoice;
@@ -53,7 +53,7 @@ public class MainController implements Initializable, Notification {
     private TextField currentSetField;
 
     @FXML
-    private TextField duration;
+    private TextField durationSetField;
 
     @FXML
     private TextField frequencyField;
@@ -62,7 +62,7 @@ public class MainController implements Initializable, Notification {
     private TextField frequencySetField;
 
     @FXML
-    private TextField voltageField;
+    private TextField voltageSetField;
 
     @FXML
     private LineChart<Number, Number> lineChartArea;
@@ -316,45 +316,45 @@ public class MainController implements Initializable, Notification {
             }
         });
         background.setOnMousePressed(event -> background.requestFocus());
-        alphaFilterField.focusedProperty().addListener((observable, outOfFocus, inFocus) -> {
-            alphaFilterField.getStyleClass().removeAll("invalid");
+        alphaFilterSetField.focusedProperty().addListener((observable, outOfFocus, inFocus) -> {
+            alphaFilterSetField.getStyleClass().removeAll("invalid");
             if (outOfFocus) {
                 try {
-                    alpha = Float.parseFloat(alphaFilterField.getText().strip().replaceAll(",", "."));
+                    alpha = Float.parseFloat(alphaFilterSetField.getText().strip().replaceAll(",", "."));
                     if (alpha > 1) {
                         alpha = 1;
                     } else if (alpha < 0) {
                         alpha = 0;
                     }
-                    alphaFilterField.setText(String.valueOf(alpha));
+                    alphaFilterSetField.setText(String.valueOf(alpha));
                 } catch (NumberFormatException e) {
-                    alphaFilterField.getStyleClass().add("invalid");
+                    alphaFilterSetField.getStyleClass().add("invalid");
                 }
             }
         });
-        alphaFilterField.setOnKeyPressed(event -> {
+        alphaFilterSetField.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
                 background.requestFocus();
             }
         });
 
-        voltageField.focusedProperty().addListener((observable, outOfFocus, inFocus) -> {
+        voltageSetField.focusedProperty().addListener((observable, outOfFocus, inFocus) -> {
             frequencySetField.getStyleClass().removeAll("invalid");
             if (outOfFocus) {
                 try {
-                    voltage = Float.parseFloat(voltageField.getText().strip().replaceAll(",", "."));
+                    voltage = Float.parseFloat(voltageSetField.getText().strip().replaceAll(",", "."));
                     if (voltage > 400) {
                         voltage = 400;
                     } else if (voltage < 1) {
                         voltage = 1;
                     }
-                    voltageField.setText(String.valueOf(voltage));
+                    voltageSetField.setText(String.valueOf(voltage));
                 } catch (NumberFormatException e) {
-                    voltageField.getStyleClass().add("invalid");
+                    voltageSetField.getStyleClass().add("invalid");
                 }
             }
         });
-        voltageField.setOnKeyPressed(event -> {
+        voltageSetField.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
                 background.requestFocus();
             }
@@ -402,32 +402,32 @@ public class MainController implements Initializable, Notification {
                 background.requestFocus();
             }
         });
-        duration.focusedProperty().addListener((observable, outOfFocus, inFocus) -> {
+        durationSetField.focusedProperty().addListener((observable, outOfFocus, inFocus) -> {
             currentSetField.getStyleClass().removeAll("invalid");
             if (outOfFocus) {
                 try {
-                    duration_time = Float.parseFloat(duration.getText().strip().replaceAll(",", "."));
+                    duration_time = Float.parseFloat(durationSetField.getText().strip().replaceAll(",", "."));
                     if (duration_time > 1.0f) {
                         duration_time = 1.0f;
                     } else if (duration_time <= 0) {
                         duration_time = 0.1f;
                     }
-                    duration.setText(String.valueOf(duration_time));
+                    durationSetField.setText(String.valueOf(duration_time));
                     Platform.runLater(() -> {
                         ((NumberAxis) lineChartArea.getXAxis()).setUpperBound(duration_time);
                     });
                 } catch (NumberFormatException e) {
-                    duration.getStyleClass().add("invalid");
+                    durationSetField.getStyleClass().add("invalid");
                 }
             }
         });
-        duration.setOnKeyPressed(event -> {
+        durationSetField.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
                 background.requestFocus();
             }
         });
 
-        alphaFilterField.setText(String.valueOf(alpha));
+        alphaFilterSetField.setText(String.valueOf(alpha));
         currentSetField.setText(String.valueOf(current));
         frequencySetField.setText(String.valueOf(freq));
 
