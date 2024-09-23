@@ -146,6 +146,7 @@
                         <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" percentWidth="31.0" prefWidth="100.0" />
                         <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" percentWidth="31.0" prefWidth="100.0" />
                         <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" percentWidth="31.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" percentWidth="31.0" prefWidth="100.0" />
                      </columnConstraints>
                      <rowConstraints>
                         <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" percentHeight="100.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
@@ -168,7 +169,21 @@
                               </Rectangle>
                            </children>
                         </HBox>
-                        <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                        <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="2">
+                           <children>
+                              <CheckBox fx:id="plot4checkBox" focusTraversable="false" mnemonicParsing="false" onAction="#checkBoxEvent" selected="true" text="Напряжение">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </CheckBox>
+                              <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ee9e39" height="25.0" stroke="BLACK" strokeType="INSIDE" width="25.0">
+                                 <HBox.margin>
+                                    <Insets left="20.0" />
+                                 </HBox.margin>
+                              </Rectangle>
+                           </children>
+                        </HBox>
+                        <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                            <children>
                               <CheckBox fx:id="plot2checkBox" focusTraversable="false" mnemonicParsing="false" onAction="#checkBoxEvent" selected="true" text="Без α-фильтра">
                                  <font>
@@ -182,7 +197,7 @@
                               </Rectangle>
                            </children>
                         </HBox>
-                        <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+                        <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                            <children>
                               <CheckBox fx:id="plot3checkBox" focusTraversable="false" mnemonicParsing="false" onAction="#checkBoxEvent" selected="true" text="С α-фильтром">
                                  <font>
@@ -206,8 +221,8 @@
                </columnConstraints>
                <rowConstraints>
                   <RowConstraints minHeight="10.0" percentHeight="4.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
-                  <RowConstraints minHeight="10.0" percentHeight="11.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
-                  <RowConstraints minHeight="10.0" percentHeight="11.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
+                  <RowConstraints minHeight="10.0" percentHeight="9.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
+                  <RowConstraints minHeight="10.0" percentHeight="9.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
                   <RowConstraints minHeight="10.0" percentHeight="4.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
                   <RowConstraints minHeight="10.0" percentHeight="6.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
                   <RowConstraints minHeight="10.0" percentHeight="4.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
@@ -216,9 +231,11 @@
                   <RowConstraints minHeight="10.0" percentHeight="6.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
                   <RowConstraints minHeight="10.0" percentHeight="4.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
                   <RowConstraints minHeight="10.0" percentHeight="6.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
-                  <RowConstraints minHeight="10.0" percentHeight="11.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
-                  <RowConstraints minHeight="10.0" percentHeight="11.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
-                  <RowConstraints minHeight="10.0" percentHeight="11.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
+                  <RowConstraints minHeight="10.0" percentHeight="4.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
+                  <RowConstraints minHeight="10.0" percentHeight="6.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
+                  <RowConstraints minHeight="10.0" percentHeight="9.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
+                  <RowConstraints minHeight="10.0" percentHeight="9.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
+                  <RowConstraints minHeight="10.0" percentHeight="9.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
                </rowConstraints>
                <children>
                   <Text fx:id="connectionStatus" strokeType="OUTSIDE" strokeWidth="0.0" text="Не подключено">
@@ -233,7 +250,7 @@
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <TextField fx:id="alphaFilterField" promptText="Значение" styleClass="default" stylesheets="@MyTextFieldStyle.css" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
+                  <TextField fx:id="alphaFilterSetField" promptText="Значение" styleClass="default" stylesheets="@MyTextFieldStyle.css" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Задание тока" GridPane.rowIndex="5">
                      <font>
                         <Font size="18.0" />
@@ -246,31 +263,41 @@
                      </font>
                   </Text>
                   <TextField fx:id="frequencySetField" prefHeight="32.0" prefWidth="125.0" promptText="Гц" styleClass="default" stylesheets="@MyTextFieldStyle.css" GridPane.rowIndex="8" GridPane.valignment="CENTER" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Длительность" GridPane.rowIndex="9">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Text>
-                  <TextField fx:id="duration" alignment="CENTER" maxWidth="100.0" promptText="с" styleClass="default" stylesheets="@MyTextFieldStyle.css" text="1.0" GridPane.rowIndex="10" GridPane.valignment="CENTER">
+                  <TextField fx:id="durationSetField" alignment="CENTER" maxWidth="100.0" promptText="с" styleClass="default" stylesheets="@MyTextFieldStyle.css" text="1.0" GridPane.rowIndex="12" GridPane.valignment="CENTER">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </TextField>
-                  <ToggleButton fx:id="acsEnableButton" contentDisplay="CENTER" focusTraversable="false" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onAcsEnableButtonPress" styleClass="start" stylesheets="@MyButtonStyle.css" text="Включить САУ" textAlignment="CENTER" GridPane.rowIndex="12" GridPane.valignment="BOTTOM">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Напряжение" GridPane.rowIndex="9">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  <TextField fx:id="voltageSetField" alignment="CENTER" maxWidth="100.0" promptText="В" styleClass="default" stylesheets="@MyTextFieldStyle.css" GridPane.rowIndex="10">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </TextField>
+                  <ToggleButton fx:id="acsEnableButton" contentDisplay="CENTER" focusTraversable="false" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onAcsEnableButtonPress" styleClass="start" stylesheets="@MyButtonStyle.css" text="Включить САУ" textAlignment="CENTER" GridPane.rowIndex="14" GridPane.valignment="BOTTOM">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </ToggleButton>
-                  <ToggleButton fx:id="startButton" contentDisplay="CENTER" focusTraversable="false" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onStartButtonPress" styleClass="start" stylesheets="@MyButtonStyle.css" text="Старт" textAlignment="CENTER" GridPane.rowIndex="13" GridPane.valignment="BOTTOM">
+                  <ToggleButton fx:id="startButton" contentDisplay="CENTER" focusTraversable="false" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onStartButtonPress" styleClass="start" stylesheets="@MyButtonStyle.css" text="Старт" textAlignment="CENTER" GridPane.rowIndex="15" GridPane.valignment="BOTTOM">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </ToggleButton>
-                  <ToggleButton fx:id="pauseButton" contentDisplay="CENTER" focusTraversable="false" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onPauseButtonPress" styleClass="start" stylesheets="@MyButtonStyle.css" text="Пауза" textAlignment="CENTER" GridPane.rowIndex="11" GridPane.valignment="BOTTOM">
+                  <ToggleButton fx:id="pauseButton" contentDisplay="CENTER" focusTraversable="false" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onPauseButtonPress" styleClass="start" stylesheets="@MyButtonStyle.css" text="Пауза" textAlignment="CENTER" GridPane.rowIndex="13" GridPane.valignment="BOTTOM">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </ToggleButton>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Длительность" GridPane.rowIndex="11">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
                </children>
             </GridPane>
          </children>
