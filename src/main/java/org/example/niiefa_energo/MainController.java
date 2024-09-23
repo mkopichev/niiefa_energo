@@ -103,8 +103,6 @@ public class MainController implements Initializable, Notification {
 
     private Thread serialThreadInput;
 
-    private Thread plotThread;
-
     float alpha = 0.01f;
     float freq = 400.0f;
     float current = 0.0f;
