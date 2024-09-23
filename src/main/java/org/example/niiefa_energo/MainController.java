@@ -69,7 +69,6 @@ public class MainController implements Initializable, Notification {
 
     @FXML
     private LineChart<Number, Number> lineChartArea;
-
     @FXML
     private CheckBox plot1checkBox;
 
