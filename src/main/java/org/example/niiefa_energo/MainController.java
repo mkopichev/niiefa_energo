@@ -105,7 +105,6 @@ public class MainController implements Initializable, Notification {
     float alpha = 0.01f;
     float freq = 400.0f;
     float current = 0.0f;
-    @FXML
     float voltage = 0.0f;
     byte controlSystem = 0;
     byte enable = 0;
