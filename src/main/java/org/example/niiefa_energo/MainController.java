@@ -165,7 +165,7 @@ public class MainController implements Initializable, Notification {
                 while (true) {
                     try {
                         if (inputStream != null) {
-                            byte[] buf = new byte[22];
+                            byte[] buf = new byte[18];
                             if (readInputStreamWithTimeout(inputStream, buf, 10, 22) == 22) {
                                 ByteBuffer bb = ByteBuffer.wrap(buf);
                                 bb.order(ByteOrder.LITTLE_ENDIAN);
@@ -321,9 +321,9 @@ public class MainController implements Initializable, Notification {
             if (outOfFocus) {
                 try {
                     alpha = Float.parseFloat(alphaFilterField.getText().strip().replaceAll(",", "."));
-                    if(alpha > 1) {
+                    if (alpha > 1) {
                         alpha = 1;
-                    } else if(alpha < 0) {
+                    } else if (alpha < 0) {
                         alpha = 0;
                     }
                     alphaFilterField.setText(String.valueOf(alpha));
@@ -343,9 +343,9 @@ public class MainController implements Initializable, Notification {
             if (outOfFocus) {
                 try {
                     voltage = Float.parseFloat(voltageField.getText().strip().replaceAll(",", "."));
-                    if(voltage > 400) {
+                    if (voltage > 400) {
                         voltage = 400;
-                    } else if(voltage < 1) {
+                    } else if (voltage < 1) {
                         voltage = 1;
                     }
                     voltageField.setText(String.valueOf(voltage));
@@ -365,9 +365,9 @@ public class MainController implements Initializable, Notification {
             if (outOfFocus) {
                 try {
                     freq = Float.parseFloat(frequencySetField.getText().strip().replaceAll(",", "."));
-                    if(freq > 400) {
+                    if (freq > 400) {
                         freq = 400;
-                    } else if(freq < 100) {
+                    } else if (freq < 100) {
                         freq = 100;
                     }
                     frequencySetField.setText(String.valueOf(freq));
@@ -386,9 +386,9 @@ public class MainController implements Initializable, Notification {
             if (outOfFocus) {
                 try {
                     current = Float.parseFloat(currentSetField.getText().strip().replaceAll(",", "."));
-                    if(current > 300) {
+                    if (current > 300) {
                         current = 300;
-                    } else if(current < 0){
+                    } else if (current < 0) {
                         current = 0;
                     }
                     currentSetField.setText(String.valueOf(current));
@@ -409,7 +409,7 @@ public class MainController implements Initializable, Notification {
                     duration_time = Float.parseFloat(duration.getText().strip().replaceAll(",", "."));
                     if (duration_time > 1.0f) {
                         duration_time = 1.0f;
-                    } else if(duration_time <= 0) {
+                    } else if (duration_time <= 0) {
                         duration_time = 0.1f;
                     }
                     duration.setText(String.valueOf(duration_time));
