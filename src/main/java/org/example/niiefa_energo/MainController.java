@@ -12,6 +12,7 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 
 
@@ -26,19 +27,52 @@ import java.util.*;
 public class MainController implements Initializable, Notification {
 
     @FXML
-    public TextField currentP2P;
+    private GridPane background;
 
     @FXML
-    public TextField currentFilteredP2P;
+    private TextField yMaxValueField;
 
     @FXML
     public Button resetYaxis;
 
     @FXML
-    private GridPane background;
+    private TextField yMinValueField;
 
     @FXML
-    private ToggleButton acsEnableButton;
+    private LineChart<Number, Number> lineChartArea;
+
+    @FXML
+    private CheckBox plot1checkBox;
+
+    @FXML
+    private CheckBox plot2checkBox;
+
+    @FXML
+    private CheckBox plot3checkBox;
+
+    @FXML
+    private CheckBox plot4checkBox;
+
+    @FXML
+    private Circle fault1Indicator;
+
+    @FXML
+    private Circle fault2Indicator;
+
+    @FXML
+    private Circle fault3Indicator;
+
+    @FXML
+    private Button clearFaultsButton;
+
+    @FXML
+    private TextField frequencyField;
+
+    @FXML
+    public TextField currentP2P;
+
+    @FXML
+    public TextField currentFilteredP2P;
 
     @FXML
     private Text connectionStatus;
@@ -59,40 +93,22 @@ public class MainController implements Initializable, Notification {
     private TextField currentSetField;
 
     @FXML
+    private TextField frequencySetField;
+
+    @FXML
     private TextField voltageSetField;
 
     @FXML
     private TextField durationSetField;
 
     @FXML
-    private TextField frequencyField;
+    private ToggleButton pauseButton;
 
     @FXML
-    private TextField frequencySetField;
-
-    @FXML
-    private LineChart<Number, Number> lineChartArea;
-
-    @FXML
-    private CheckBox plot1checkBox;
-
-    @FXML
-    private CheckBox plot2checkBox;
-
-    @FXML
-    private CheckBox plot3checkBox;
-
-    @FXML
-    private CheckBox plot4checkBox;
+    private ToggleButton acsEnableButton;
 
     @FXML
     private ToggleButton startButton;
-
-    @FXML
-    private TextField yMaxValueField;
-
-    @FXML
-    private TextField yMinValueField;
 
     private String serialPortName;
 
