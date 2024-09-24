@@ -47,6 +47,9 @@ public class MainController implements Initializable, Notification {
     private ComboBox<String> comPortChoice;
 
     @FXML
+    private ComboBox<String> comBaudrateChoice;
+
+    @FXML
     private Button comPortConnectButton;
 
     @FXML
@@ -69,6 +72,7 @@ public class MainController implements Initializable, Notification {
 
     @FXML
     private LineChart<Number, Number> lineChartArea;
+
     @FXML
     private CheckBox plot1checkBox;
 
@@ -256,6 +260,11 @@ public class MainController implements Initializable, Notification {
                 }
             }
         });
+
+        comBaudrateChoice.getItems().removeAll(comBaudrateChoice.getItems());
+        comBaudrateChoice.getItems().addAll("4800", "9600", "19200", "38400", "57600", "115200", "230400");
+        comBaudrateChoice.getSelectionModel().select("115200");
+
         yMinValueField.focusedProperty().addListener((observable, outOfFocus, inFocus) -> {
             yMinValueField.getStyleClass().removeAll("invalid");
             if (outOfFocus) {

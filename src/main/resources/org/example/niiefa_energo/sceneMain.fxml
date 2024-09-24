@@ -223,6 +223,7 @@
                   <RowConstraints minHeight="10.0" percentHeight="4.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
                   <RowConstraints minHeight="10.0" percentHeight="9.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
                   <RowConstraints minHeight="10.0" percentHeight="9.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
+                  <RowConstraints minHeight="10.0" percentHeight="9.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
                   <RowConstraints minHeight="10.0" percentHeight="4.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
                   <RowConstraints minHeight="10.0" percentHeight="6.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
                   <RowConstraints minHeight="10.0" percentHeight="4.0" prefHeight="30.0" valignment="CENTER" vgrow="ALWAYS" />
@@ -243,57 +244,66 @@
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <ComboBox fx:id="comPortChoice" maxWidth="1.7976931348623157E308" promptText="COM-порт" styleClass="default" stylesheets="@MyButtonStyle.css" GridPane.rowIndex="1" GridPane.valignment="TOP" />
-                  <Button fx:id="comPortConnectButton" alignment="CENTER" focusTraversable="false" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="default" stylesheets="@MyButtonStyle.css" text="Подключиться" GridPane.rowIndex="2" GridPane.valignment="TOP" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="α-фильтр" GridPane.rowIndex="3">
+                  <ComboBox fx:id="comPortChoice" maxWidth="1.7976931348623157E308" promptText="COM-порт" styleClass="default" stylesheets="@MyButtonStyle.css" GridPane.rowIndex="1">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </ComboBox>
+                  <ComboBox fx:id="comBaudrateChoice" maxWidth="1.7976931348623157E308" promptText="Бодрейт" styleClass="default" stylesheets="@MyButtonStyle.css" GridPane.rowIndex="2">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </ComboBox>
+                  <Button fx:id="comPortConnectButton" alignment="CENTER" focusTraversable="false" maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="default" stylesheets="@MyButtonStyle.css" text="Подключиться" GridPane.rowIndex="3" GridPane.valignment="TOP" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="α-фильтр" GridPane.rowIndex="4">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <TextField fx:id="alphaFilterSetField" promptText="Значение" styleClass="default" stylesheets="@MyTextFieldStyle.css" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Задание тока" GridPane.rowIndex="5">
+                  <TextField fx:id="alphaFilterSetField" promptText="Значение" styleClass="default" stylesheets="@MyTextFieldStyle.css" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Задание тока" GridPane.rowIndex="6">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <TextField fx:id="currentSetField" promptText="А" styleClass="default" stylesheets="@MyTextFieldStyle.css" GridPane.rowIndex="6" GridPane.valignment="CENTER" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Задание частоты" GridPane.rowIndex="7">
+                  <TextField fx:id="currentSetField" promptText="А" styleClass="default" stylesheets="@MyTextFieldStyle.css" GridPane.rowIndex="7" GridPane.valignment="CENTER" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Задание частоты" GridPane.rowIndex="8">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <TextField fx:id="frequencySetField" prefHeight="32.0" prefWidth="125.0" promptText="Гц" styleClass="default" stylesheets="@MyTextFieldStyle.css" GridPane.rowIndex="8" GridPane.valignment="CENTER" />
-                  <TextField fx:id="durationSetField" alignment="CENTER" maxWidth="100.0" promptText="с" styleClass="default" stylesheets="@MyTextFieldStyle.css" text="1.0" GridPane.rowIndex="12" GridPane.valignment="CENTER">
+                  <TextField fx:id="frequencySetField" prefHeight="32.0" prefWidth="125.0" promptText="Гц" styleClass="default" stylesheets="@MyTextFieldStyle.css" GridPane.rowIndex="9" GridPane.valignment="CENTER" />
+                  <TextField fx:id="durationSetField" alignment="CENTER" maxWidth="100.0" promptText="с" styleClass="default" stylesheets="@MyTextFieldStyle.css" text="1.0" GridPane.rowIndex="13" GridPane.valignment="CENTER">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </TextField>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Напряжение" GridPane.rowIndex="9">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Напряжение" GridPane.rowIndex="10">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <TextField fx:id="voltageSetField" alignment="CENTER" maxWidth="100.0" promptText="В" styleClass="default" stylesheets="@MyTextFieldStyle.css" GridPane.rowIndex="10">
+                  <TextField fx:id="voltageSetField" alignment="CENTER" maxWidth="100.0" promptText="В" styleClass="default" stylesheets="@MyTextFieldStyle.css" GridPane.rowIndex="11">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </TextField>
-                  <ToggleButton fx:id="acsEnableButton" contentDisplay="CENTER" focusTraversable="false" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onAcsEnableButtonPress" styleClass="start" stylesheets="@MyButtonStyle.css" text="Включить САУ" textAlignment="CENTER" GridPane.rowIndex="14" GridPane.valignment="BOTTOM">
+                  <ToggleButton fx:id="acsEnableButton" contentDisplay="CENTER" focusTraversable="false" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onAcsEnableButtonPress" styleClass="start" stylesheets="@MyButtonStyle.css" text="Включить САУ" textAlignment="CENTER" GridPane.rowIndex="15" GridPane.valignment="BOTTOM">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </ToggleButton>
-                  <ToggleButton fx:id="startButton" contentDisplay="CENTER" focusTraversable="false" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onStartButtonPress" styleClass="start" stylesheets="@MyButtonStyle.css" text="Старт" textAlignment="CENTER" GridPane.rowIndex="15" GridPane.valignment="BOTTOM">
+                  <ToggleButton fx:id="startButton" contentDisplay="CENTER" focusTraversable="false" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onStartButtonPress" styleClass="start" stylesheets="@MyButtonStyle.css" text="Старт" textAlignment="CENTER" GridPane.rowIndex="16" GridPane.valignment="BOTTOM">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </ToggleButton>
-                  <ToggleButton fx:id="pauseButton" contentDisplay="CENTER" focusTraversable="false" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onPauseButtonPress" styleClass="start" stylesheets="@MyButtonStyle.css" text="Пауза" textAlignment="CENTER" GridPane.rowIndex="13" GridPane.valignment="BOTTOM">
+                  <ToggleButton fx:id="pauseButton" contentDisplay="CENTER" focusTraversable="false" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onPauseButtonPress" styleClass="start" stylesheets="@MyButtonStyle.css" text="Пауза" textAlignment="CENTER" GridPane.rowIndex="14" GridPane.valignment="BOTTOM">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </ToggleButton>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Длительность" GridPane.rowIndex="11">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Длительность" GridPane.rowIndex="12">
                      <font>
                         <Font size="18.0" />
                      </font>
