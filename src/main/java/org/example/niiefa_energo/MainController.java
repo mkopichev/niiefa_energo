@@ -12,6 +12,8 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 
@@ -128,6 +130,8 @@ public class MainController implements Initializable, Notification {
     float voltage = 0.0f;
     byte controlSystem = 0;
     byte enable = 0;
+    byte errorFlags = 0;
+    byte clearErrors = 0;
 
     float duration_time = 1.0f;
 
@@ -155,9 +159,9 @@ public class MainController implements Initializable, Notification {
                 try {
                     if (outputStream != null) {
                         // 2 start bytes, alpha_filter_float, frequency_float, current_float, mode_byte
-                        ByteBuffer buf = ByteBuffer.allocate(2 + 4 + 4 + 4 + 4 + 1 + 1);
+                        ByteBuffer buf = ByteBuffer.allocate(2 + 4 + 4 + 4 + 4 + 1 + 1 + 1);
                         buf.order(ByteOrder.LITTLE_ENDIAN);
-                        buf.put((byte) 'a').put((byte) 'f').putFloat(alpha).putFloat(freq).putFloat(current).putFloat(voltage).put(controlSystem).put(enable);
+                        buf.put((byte) 'a').put((byte) 'f').putFloat(alpha).putFloat(freq).putFloat(current).putFloat(voltage).put(controlSystem).put(enable).put(clearErrors);
                         outputStream.write(buf.array());
                     }
                 } catch (SerialPortTimeoutException e) {
@@ -182,8 +186,8 @@ public class MainController implements Initializable, Notification {
             while (true) {
                 try {
                     if (inputStream != null) {
-                        byte[] buf = new byte[22];
-                        if (readInputStreamWithTimeout(inputStream, buf, 10, 22) == 22) {
+                        byte[] buf = new byte[23];
+                        if (readInputStreamWithTimeout(inputStream, buf, 10, 23) == 23) {
                             ByteBuffer bb = ByteBuffer.wrap(buf);
                             bb.order(ByteOrder.LITTLE_ENDIAN);
                             currentQueue[i] = bb.getFloat(2);
@@ -191,11 +195,29 @@ public class MainController implements Initializable, Notification {
                             currentSetpointQueue[i] = bb.getFloat(10);
                             frequencyQueue = bb.getFloat(14);
                             voltageQueue[i] = bb.getFloat(18);
-
+                            errorFlags = bb.get(22);
                             i++;
                         }
                         if (i >= 1000) {
-
+                            if(errorFlags == 0) {
+                                clearErrors = 0;
+                                Platform.runLater(()->{
+                                    fault1Indicator.setFill(new Color(0, 0, 0, 1));
+                                    fault2Indicator.setFill(new Color(0, 0, 0, 1));
+                                    fault3Indicator.setFill(new Color(0, 0, 0, 1));
+                                });
+                            }
+                            else {
+                                if((errorFlags & 1) > 0){
+                                    fault1Indicator.setFill(new Color(1, 0, 0, 1));
+                                }
+                                if((errorFlags & 2) > 0){
+                                    fault2Indicator.setFill(new Color(1, 0, 0, 1));
+                                }
+                                if((errorFlags & 4) > 0){
+                                    fault3Indicator.setFill(new Color(1, 0, 0, 1));
+                                }
+                            }
                             if (!pause) {
                                 System.arraycopy(currentQueue, 0, currentSaved, 0, 1000);
                                 System.arraycopy(currentFilteredQueue, 0, currentFilteredSaved, 0, 1000);
@@ -252,6 +274,7 @@ public class MainController implements Initializable, Notification {
 
         comPortChoice.showingProperty().addListener((observable, wasShowing, isShowing) ->
         {
+
             if (isShowing) {
                 comPortChoice.getItems().clear();
                 SerialPort[] ports = SerialPort.getCommPorts();
@@ -480,6 +503,8 @@ public class MainController implements Initializable, Notification {
                 yMaxValueField.getStyleClass().removeAll("invalid");
             }
         });
+
+        
     }
 
     boolean pause = false;
