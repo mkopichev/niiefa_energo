@@ -146,6 +146,8 @@ public class MainController implements Initializable, Notification {
                     }
                 } catch (SerialPortTimeoutException e) {
                     connectionStatus.setText("Ошибка COM-порта");
+                    comBaudrateChoice.disableProperty().setValue(Boolean.FALSE);
+
                 } catch (IOException e) {
                     connectionStatus.setText("Ошибка COM-порта");
                     e.printStackTrace();
@@ -153,8 +155,9 @@ public class MainController implements Initializable, Notification {
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
-                    if (serialPort != null)
+                    if (serialPort != null) {
                         serialPort.closePort();
+                    }
                     return;
                 }
             }
@@ -253,6 +256,7 @@ public class MainController implements Initializable, Notification {
                         if (serialPort.isOpen() && !serialPort.getSystemPortName().equals(serialPortName)) {
                             serialPort.closePort();
                             connectionStatus.setText("Не подключено");
+                            comBaudrateChoice.disableProperty().setValue(Boolean.FALSE);
                             outputStream = null;
                             inputStream = null;
                         }
@@ -311,8 +315,10 @@ public class MainController implements Initializable, Notification {
                     return;
                 if (serialPort != null)
                     serialPort.closePort();
+                int baudRate = Integer.parseInt(comBaudrateChoice.getValue());
+                comBaudrateChoice.disableProperty().setValue(Boolean.TRUE);
                 serialPort = SerialPort.getCommPort(serialPortName);
-                serialPort.setComPortParameters(115200, 8, 1, SerialPort.NO_PARITY);
+                serialPort.setComPortParameters(baudRate, 8, 1, SerialPort.NO_PARITY);
                 serialPort.openPort();
                 serialPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 0, 0);
                 inputStream = serialPort.getInputStream();
