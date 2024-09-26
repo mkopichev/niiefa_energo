@@ -202,9 +202,9 @@ public class MainController implements Initializable, Notification {
                             if(errorFlags == 0) {
                                 clearErrors = 0;
                                 Platform.runLater(()->{
-                                    fault1Indicator.setFill(new Color(0, 0, 0, 1));
-                                    fault2Indicator.setFill(new Color(0, 0, 0, 1));
-                                    fault3Indicator.setFill(new Color(0, 0, 0, 1));
+                                    fault1Indicator.setFill(new Color(1, 1, 1, 1));
+                                    fault2Indicator.setFill(new Color(1, 1, 1, 1));
+                                    fault3Indicator.setFill(new Color(1, 1, 1, 1));
                                 });
                             }
                             else {
