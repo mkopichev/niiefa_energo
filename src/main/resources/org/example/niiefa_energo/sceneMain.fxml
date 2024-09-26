@@ -244,12 +244,12 @@
                         <Font size="18.0" />
                      </font>
                   </Text>
-                  <ComboBox fx:id="comPortChoice" maxWidth="1.7976931348623157E308" promptText="COM-порт" styleClass="default" stylesheets="@MyButtonStyle.css" GridPane.rowIndex="1">
+                  <ComboBox fx:id="comPortChoice" maxWidth="1.7976931348623157E308" promptText="COM-порт" styleClass="default" stylesheets="@MyButtonStyle.css" GridPane.rowIndex="1" GridPane.valignment="TOP">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
                   </ComboBox>
-                  <ComboBox fx:id="comBaudrateChoice" maxWidth="1.7976931348623157E308" promptText="Бодрейт" styleClass="default" stylesheets="@MyButtonStyle.css" GridPane.rowIndex="2">
+                  <ComboBox fx:id="comBaudrateChoice" maxWidth="1.7976931348623157E308" promptText="Бодрейт" styleClass="default" stylesheets="@MyButtonStyle.css" GridPane.rowIndex="2" GridPane.valignment="TOP">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets>
