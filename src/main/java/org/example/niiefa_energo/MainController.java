@@ -504,7 +504,12 @@ public class MainController implements Initializable, Notification {
             }
         });
 
-        
+        clearFaultsButton.pressedProperty().addListener((observable, released, pressed) -> {
+
+            if(released) {
+                clearErrors = 1;
+            }
+        });
     }
 
     boolean pause = false;
