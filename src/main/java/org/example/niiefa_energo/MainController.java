@@ -356,8 +356,8 @@ public class MainController implements Initializable, Notification {
                     voltage = Float.parseFloat(voltageSetField.getText().strip().replaceAll(",", "."));
                     if (voltage > 400) {
                         voltage = 400;
-                    } else if (voltage < 1) {
-                        voltage = 1;
+                    } else if (voltage <= 0) {
+                        voltage = 0;
                     }
                     voltageSetField.setText(String.valueOf(voltage));
                 } catch (NumberFormatException e) {
